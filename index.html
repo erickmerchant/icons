@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				font: inherit;
+				max-width: 100%;
+			}
+
+			html {
+				height: 100%;
+				font-family: system-ui, "Helvetica", sans-serif;
+			}
+
+			body {
+				height: 100%;
+				display: grid;
+				grid-template-rows: auto max-content max-content auto;
+				grid-template-columns: auto auto auto;
+				gap: 1rem;
+			}
+
+			svg-icon-set {
+				grid-row: 2;
+				grid-column: 2;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1rem;
+
+				:where(:popover-open) {
+					background: oklch(60% 0.2 150);
+					color: white;
+					border: none;
+					border-radius: 0.25rlh;
+					padding: 1em;
+					display: flex;
+					gap: 0.5em;
+					font-weight: 500;
+					position: fixed;
+					inset: 1em;
+
+					@supports (anchor-name: --a) {
+						position: absolute;
+						position-anchor: --a;
+						top: calc(anchor(top) + 0.25em);
+						left: calc(anchor(left) + 0.25em);
+						padding: 0.5em;
+						font-size: 0.8em;
+					}
+				}
+			}
+
+			svg-icon {
+				:where(button) {
+					background: hsl(0 0 0 / 0);
+					border-color: hsl(0 0 0 / 0);
+					border-radius: 0.125rem;
+					outline: 0.125rem solid
+						color-mix(in lch, currentcolor 15%, hsl(0 0% 0% / 0));
+					height: 7lh;
+					padding: 0.25lh;
+				}
+
+				:where(svg) {
+					height: 100%;
+					/*     background-color: lightgray; */
+				}
+			}
+
+			.helper {
+				grid-row: 3;
+				grid-column: 2;
+				color: oklch(60% 0 0);
+				text-align: left;
+				width: 100%;
+			}
+		</style>
+		<script type="module">
+			class SVGIconSet extends HTMLElement {
+				#timeout;
+				#popover;
+
+				constructor() {
+					super();
+
+					let div = document.createElement("div");
+
+					div.toggleAttribute("popover");
+					div.addEventListener("toggle", this.onToggle);
+					div.innerHTML = "<span>✔︎</span>Copied!";
+
+					this.append(div);
+					this.#popover = new WeakRef(div);
+					this.addEventListener("copyicon", this.onCopyIcon);
+				}
+
+				onToggle = (e) => {
+					let popover = e.target;
+
+					if (this.#timeout) {
+						clearTimeout(this.#timeout);
+					}
+
+					if (event.newState === "open") {
+						this.#timeout = setTimeout(() => {
+							if (popover.matches(":popover-open")) {
+								popover.hidePopover();
+							}
+						}, 2000);
+					}
+				};
+
+				onCopyIcon = async (e) => {
+					try {
+						await navigator.clipboard.writeText(e.detail.svgContent);
+
+						this.#popover.deref()?.showPopover();
+						this.#popover
+							.deref()
+							?.style.setProperty("position-anchor", e.detail.anchorName);
+					} catch (_) {}
+				};
+			}
+
+			class SVGIcon extends HTMLElement {
+				static #instances = 0;
+
+				#button;
+				#instance;
+
+				constructor() {
+					super();
+
+					SVGIcon.#instances += 1;
+
+					this.#instance = SVGIcon.#instances;
+
+					let d = this.getAttribute("d");
+					let title = this.getAttribute("title");
+					let width = this.getAttribute("width");
+					let button = document.createElement("button");
+
+					button.addEventListener("click", this.onClick);
+					button.innerHTML = `<svg viewBox="0 0 ${width} 14"><title>${title}</title><path d="${d}"></path></svg>`;
+
+					this.append(button);
+					this.#button = new WeakRef(button);
+				}
+
+				onClick = (e) => {
+					let anchorName = `--svg-icon-${this.#instance.toString(36)}`;
+					this.#button.deref()?.style.setProperty("anchor-name", anchorName);
+
+					this.dispatchEvent(
+						new CustomEvent("copyicon", {
+							bubbles: true,
+							detail: {svgContent: this.#button.deref()?.innerHTML, anchorName},
+						})
+					);
+				};
+			}
+
+			window.customElements.define("svg-icon-set", SVGIconSet);
+
+			window.customElements.define("svg-icon", SVGIcon);
+		</script>
+	</head>
+	<body>
+		<svg-icon-set>
+			<svg-icon
+				title="Edit"
+				width="14"
+				d="M4.5 0.5 Q5 0 5.5 0.5 L7.5 2.5 L2.5 7.5 L0.5 5.5 Q0 5 0.5 4.5 Z M8.5 3.5 L13.5 8.5 Q14 9 14 9.5 V14 H9.5 Q9 14 8.5 13.5 L3.5 8.5 Z"></svg-icon>
+			<svg-icon
+				title="Pinned"
+				width="10"
+				d="M0 0 H10 V1 L8.5 2.5 Q8 3 8 3.5 V5.5 Q8 6 8.5 6.5 L10 8 V9 H0 V8 L1.5 6.5 Q2 6 2 5.5 V3.5 Q2 3 1.5 2.5 L0 1 V1 Z M3.5 10 V13 L5 14 L6.5 13 V10 Z"></svg-icon>
+			<svg-icon
+				title="Date"
+				width="14"
+				d="M1 0 H13 Q14 0 14 1 V4 H0 V1 Q0 0 1 0 Z M0 5 H14 V13 Q14 14 13 14 H1 Q0 14 0 13 H0 Z M2.5 7 Q2 7 2 7.5 V10 Q2 10.5 2.5 10.5 H5 Q5.5 10.5 5.5 10 V7.5 Q5.5 7 5 7 Z"></svg-icon>
+			<svg-icon
+				title="Delete"
+				width="14"
+				d="M2.5 0.5 Q3 0 3.5 0.5 L7 4 L10.5 0.5 Q11 0 11.5 0.5 L13.5 2.5 Q14 3 13.5 3.5 L10 7 L13.5 10.5 Q14 11 13.5 11.5 L11.5 13.5 Q11 14 10.5 13.5 L7 10 L3.5 13.5 Q3 14 2.5 13.5 L0.5 11.5 Q0 11 0.5 10.5 L4 7 L0.5 3.5 Q0 3 0.5 2.5 Z"></svg-icon>
+			<svg-icon
+				title="Edit"
+				width="14"
+				d="M9.5 0.5 Q9 0 8.5 0.5 L6.5 2.5 L11.5 7.5 L13.5 5.5 Q14 5 13.5 4.5 Z M5.5 3.5 L0.5 8.5 Q0 9 0 9.5 V14 H4.5 Q5 14 5.5 13.5 L10.5 8.5 Z"></svg-icon>
+			<svg-icon
+				title="RSS"
+				width="14"
+				d="M0 12 a2 2 0 1 1 4 0 a2 2 0 1 1 -4 0 Z M1 7.5 Q0 7.5 0 6.5 V6 Q0 5 1 5 Q9 5 9 13 Q9 14 8 14 H7.5 Q6.5 14 6.5 13 Q6.5 7.5 1 7.5 Z M1 2.5 Q0 2.5 0 1.5 V1 Q0 0 1 0 Q14 0 14 13 Q14 14 13 14 H12.5 Q11.5 14 11.5 13 Q11.5 2.5 1 2.5 Z">
+			</svg-icon>
+		</svg-icon-set>
+
+		<p class="helper">Click an icon to copy</p>
+	</body>
+</html>
