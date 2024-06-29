@@ -75,56 +75,73 @@
 			}
 		</style>
 		<script type="module">
+			import {
+				html,
+				watch,
+				effect,
+				$,
+			} from "https://cdn.jsdelivr.net/gh/erickmerchant/vanilla-kit@v2.0.0/lib.min.js";
+
+			let {div, span} = html;
+
 			class SVGIconSet extends HTMLElement {
 				#timeout;
 				#popover;
+				#state = watch({
+					clicked: null,
+				});
 
 				constructor() {
 					super();
 
-					let div = document.createElement("div");
+					for (let button of this.querySelectorAll("button")) {
+						$(button)
+							.on("click", this.onCopyIcon)
+							.data({
+								clicked: () => {
+									return this.#state.clicked === button;
+								},
+							});
+					}
 
-					div.toggleAttribute("popover");
-					div.addEventListener("toggle", this.onToggle);
-					div.innerHTML = "<span>✔︎</span>Copied!";
+					this.#popover = div()
+						.attr("popover", true)
+						.on("toggle", this.onToggle)
+						.children(span().children("✔︎"), "Copied");
 
-					this.append(div);
-					this.#popover = new WeakRef(div);
-					this.addEventListener("click", this.onCopyIcon);
+					$(this).children(this.#popover);
+
+					effect(async () => {
+						let popover = this.#popover.deref();
+
+						if (this.#state.clicked != null) {
+							popover?.showPopover();
+
+							try {
+								await navigator.clipboard.writeText(
+									this.#state.clicked.innerHTML.trim()
+								);
+							} catch (_) {}
+						} else {
+							popover?.hidePopover();
+						}
+					});
 				}
 
 				onToggle = (e) => {
-					let popover = e.target;
-
 					if (this.#timeout) {
 						clearTimeout(this.#timeout);
 					}
 
 					if (event.newState === "open") {
 						this.#timeout = setTimeout(() => {
-							if (popover.matches(":popover-open")) {
-								popover.hidePopover();
-							}
+							this.#state.clicked = null;
 						}, 2000);
 					}
 				};
 
 				onCopyIcon = async (e) => {
-					let target = e.target.closest("button");
-
-					if (!target) {
-						return;
-					}
-
-					try {
-						await navigator.clipboard.writeText(target.innerHTML.trim());
-
-						for (let button of this.querySelectorAll("button")) {
-							button.dataset.clicked = button === target;
-						}
-
-						this.#popover.deref()?.showPopover();
-					} catch (_) {}
+					this.#state.clicked = e.currentTarget;
 				};
 			}
 
