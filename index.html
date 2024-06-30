@@ -98,7 +98,7 @@
 							.on("click", this.onCopyIcon)
 							.classes({
 								clicked: () => {
-									return this.#state.clicked === button;
+									return this.#state.clicked?.deref?.() === button;
 								},
 							});
 					}
@@ -111,11 +111,9 @@
 				}
 
 				onCopyIcon = async (e) => {
-					this.#state.clicked = e.currentTarget;
+					this.#state.clicked = new WeakRef(e.currentTarget);
 
-					let popover = this.#popover.deref();
-
-					popover?.showPopover();
+					this.#popover.deref()?.showPopover();
 
 					if (this.#timeout) {
 						clearTimeout(this.#timeout);
@@ -124,12 +122,12 @@
 					this.#timeout = setTimeout(() => {
 						this.#state.clicked = null;
 
-						popover?.hidePopover();
+						this.#popover.deref()?.hidePopover();
 					}, 2000);
 
 					try {
 						await navigator.clipboard.writeText(
-							this.#state.clicked.innerHTML.trim()
+							this.#state.clicked?.deref?.()?.innerHTML?.trim?.()
 						);
 					} catch (_) {}
 				};
