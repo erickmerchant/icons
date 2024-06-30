@@ -64,7 +64,7 @@
 					block-size: 7lh;
 					padding: 0.25lh;
 
-					&:where([data-clicked="true"]) {
+					&:where(.clicked) {
 						anchor-name: --svg-icon--clicked;
 					}
 				}
@@ -78,7 +78,6 @@
 			import {
 				html,
 				watch,
-				effect,
 				$,
 			} from "https://cdn.jsdelivr.net/gh/erickmerchant/vanilla-kit@v2.0.0/lib.min.js";
 
@@ -97,7 +96,7 @@
 					for (let button of this.querySelectorAll("button")) {
 						$(button)
 							.on("click", this.onCopyIcon)
-							.data({
+							.classes({
 								clicked: () => {
 									return this.#state.clicked === button;
 								},
@@ -106,42 +105,33 @@
 
 					this.#popover = div()
 						.attr("popover", true)
-						.on("toggle", this.onToggle)
 						.children(span().children("✔︎"), "Copied");
 
 					$(this).children(this.#popover);
-
-					effect(async () => {
-						let popover = this.#popover.deref();
-
-						if (this.#state.clicked != null) {
-							popover?.showPopover();
-
-							try {
-								await navigator.clipboard.writeText(
-									this.#state.clicked.innerHTML.trim()
-								);
-							} catch (_) {}
-						} else {
-							popover?.hidePopover();
-						}
-					});
 				}
 
-				onToggle = (e) => {
+				onCopyIcon = async (e) => {
+					this.#state.clicked = e.currentTarget;
+
+					let popover = this.#popover.deref();
+
+					popover?.showPopover();
+
 					if (this.#timeout) {
 						clearTimeout(this.#timeout);
 					}
 
-					if (event.newState === "open") {
-						this.#timeout = setTimeout(() => {
-							this.#state.clicked = null;
-						}, 2000);
-					}
-				};
+					this.#timeout = setTimeout(() => {
+						this.#state.clicked = null;
 
-				onCopyIcon = async (e) => {
-					this.#state.clicked = e.currentTarget;
+						popover?.hidePopover();
+					}, 2000);
+
+					try {
+						await navigator.clipboard.writeText(
+							this.#state.clicked.innerHTML.trim()
+						);
+					} catch (_) {}
 				};
 			}
 
