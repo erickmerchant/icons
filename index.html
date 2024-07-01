@@ -1,6 +1,13 @@
 <!doctype html>
 <html>
 	<head>
+		<script type="importmap">
+			{
+				"imports": {
+					"vanilla-kit": "https://cdn.jsdelivr.net/gh/erickmerchant/vanilla-kit@v2.0.0/lib.min.js"
+				}
+			}
+		</script>
 		<style>
 			* {
 				box-sizing: border-box;
@@ -75,11 +82,7 @@
 			}
 		</style>
 		<script type="module">
-			import {
-				html,
-				watch,
-				$,
-			} from "https://cdn.jsdelivr.net/gh/erickmerchant/vanilla-kit@v2.0.0/lib.min.js";
+			import {html, watch, $} from "vanilla-kit";
 
 			let {div, span} = html;
 
