@@ -93,9 +93,7 @@
 					clicked: null,
 				});
 
-				constructor() {
-					super();
-
+				connectedCallback() {
 					for (let button of this.querySelectorAll("button")) {
 						$(button)
 							.on("click", this.onCopyIcon)
