@@ -4,7 +4,7 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"vanilla-kit": "https://cdn.jsdelivr.net/gh/erickmerchant/vanilla-kit@v2.0.0/lib.min.js"
+					"vanilla-kit": "https://cdn.jsdelivr.net/gh/erickmerchant/vanilla-kit@~2.1.2/lib.min.js"
 				}
 			}
 		</script>
@@ -99,7 +99,7 @@
 							.on("click", this.onCopyIcon)
 							.classes({
 								clicked: () => {
-									return this.#state.clicked?.deref?.() === button;
+									return this.#state.clicked === button;
 								},
 							});
 					}
@@ -112,9 +112,9 @@
 				}
 
 				onCopyIcon = async (e) => {
-					this.#state.clicked = new WeakRef(e.currentTarget);
+					this.#state.clicked = e.currentTarget;
 
-					this.#popover.deref()?.showPopover();
+					this.#popover.element?.showPopover();
 
 					if (this.#timeout) {
 						clearTimeout(this.#timeout);
@@ -123,12 +123,12 @@
 					this.#timeout = setTimeout(() => {
 						this.#state.clicked = null;
 
-						this.#popover.deref()?.hidePopover();
+						this.#popover.element?.hidePopover();
 					}, 2000);
 
 					try {
 						await navigator.clipboard.writeText(
-							this.#state.clicked?.deref?.()?.innerHTML?.trim?.()
+							this.#state.clicked?.innerHTML?.trim?.()
 						);
 					} catch (_) {}
 				};
@@ -158,7 +158,7 @@
 				<svg viewBox="0 0 20 24">
 					<title>Date</title>
 					<path
-						d="M0 6 Q0 4 2 4 H3 V2 Q3 0 5 0 Q7 0 7 2 V4 H13 V2 Q13 0 15 0 Q17 0 17 2 V4 H18 Q20 4 20 6 V10 H0 Z M0 12 H20 V22 Q20 24 18 24 H2 Q0 24 0 22 Z"></path>
+						d="M0 6 Q0 4 2 4 H3 V2 Q3 0 5 0 Q7 0 7 2 V4 H13 V2 Q13 0 15 0 Q17 0 17 2 V4 H18 Q20 4 20 6 V10 V22 Q20 24 18 24 H2 Q0 24 0 22 V21 H17 V12 H3 V21 H0 Z"></path>
 				</svg>
 			</button>
 			<button>
