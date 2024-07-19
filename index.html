@@ -2,64 +2,56 @@
 <html>
 	<head>
 		<title>Icon Gallery</title>
-		<script type="importmap">
-			{
-				"imports": {
-					"vanilla-kit": "/vendor/vanilla-kit/lib.js"
-				}
-			}
-		</script>
 		<script type="module">
-			import {html, watch, $} from "vanilla-kit";
-
-			let {div, span} = html;
-
 			class SVGIconSet extends HTMLElement {
 				#timeout;
 				#popover;
-				#state = watch({
-					clicked: null,
-				});
 
 				connectedCallback() {
 					for (let button of this.querySelectorAll("button")) {
-						$(button)
-							.on("click", this.#onCopyIcon)
-							.classes({
-								clicked: () => {
-									return this.#state.clicked === button;
-								},
-							});
+						button.addEventListener("click", (e) => {
+							this.dispatchEvent(new CustomEvent("copy", {detail: {button}}));
+						});
+
+						this.addEventListener("copy", async (e) => {
+							let clicked = e.detail?.button === button;
+
+							button.classList.toggle("clicked", clicked);
+
+							if (clicked) {
+								this.#popover?.showPopover();
+
+								if (this.#timeout) {
+									clearTimeout(this.#timeout);
+								}
+
+								this.#timeout = setTimeout(() => {
+									this.dispatchEvent(
+										new CustomEvent("copy", {detail: {button: null}})
+									);
+
+									this.#popover?.hidePopover();
+								}, 2000);
+
+								try {
+									await navigator.clipboard.writeText(
+										button.innerHTML?.trim?.()
+									);
+								} catch (_) {}
+							}
+						});
 					}
 
-					this.#popover = div()
-						.attr("popover", true)
-						.children(span().children("✔︎"), "Copied");
+					let div = document.createElement("div");
+					let span = document.createElement("span");
 
-					$(this).children(this.#popover);
+					span.textContent = "✔︎";
+					div.append(span, "Copied");
+					div.toggleAttribute("popover", true);
+
+					this.#popover = div;
+					this.append(this.#popover);
 				}
-
-				#onCopyIcon = async (e) => {
-					this.#state.clicked = e.currentTarget;
-
-					this.#popover.element?.showPopover();
-
-					if (this.#timeout) {
-						clearTimeout(this.#timeout);
-					}
-
-					this.#timeout = setTimeout(() => {
-						this.#state.clicked = null;
-
-						this.#popover.element?.hidePopover();
-					}, 2000);
-
-					try {
-						await navigator.clipboard.writeText(
-							this.#state.clicked?.innerHTML?.trim?.()
-						);
-					} catch (_) {}
-				};
 			}
 
 			window.customElements.define("svg-icon-set", SVGIconSet);
