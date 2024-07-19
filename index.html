@@ -18,27 +18,27 @@
 
 							button.classList.toggle("clicked", clicked);
 
-							if (clicked) {
-								this.#popover?.showPopover();
-
-								if (this.#timeout) {
-									clearTimeout(this.#timeout);
-								}
-
-								this.#timeout = setTimeout(() => {
-									this.dispatchEvent(
-										new CustomEvent("copy", {detail: {button: null}})
-									);
-
-									this.#popover?.hidePopover();
-								}, 2000);
-
-								try {
-									await navigator.clipboard.writeText(
-										button.innerHTML?.trim?.()
-									);
-								} catch (_) {}
+							if (!clicked) {
+								return;
 							}
+
+							this.#popover?.showPopover();
+
+							if (this.#timeout) {
+								clearTimeout(this.#timeout);
+							}
+
+							this.#timeout = setTimeout(() => {
+								this.dispatchEvent(
+									new CustomEvent("copy", {detail: {button: null}})
+								);
+
+								this.#popover?.hidePopover();
+							}, 2000);
+
+							try {
+								await navigator.clipboard.writeText(button.innerHTML?.trim?.());
+							} catch (_) {}
 						});
 					}
 
