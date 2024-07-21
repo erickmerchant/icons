@@ -34,7 +34,7 @@
 								);
 
 								this.#popover?.hidePopover();
-							}, 2000);
+							}, 2_000);
 
 							try {
 								await navigator.clipboard.writeText(button.innerHTML?.trim?.());
@@ -44,13 +44,16 @@
 
 					let div = document.createElement("div");
 					let span = document.createElement("span");
+					let checkIcon = this.querySelector('[data-icon="check"]').cloneNode(
+						true
+					);
 
-					span.textContent = "✔︎";
-					div.append(span, "Copied");
 					div.toggleAttribute("popover", true);
+					span.append("Copied");
+					div.append(checkIcon, span);
+					this.append(div);
 
 					this.#popover = div;
-					this.append(this.#popover);
 				}
 			}
 
@@ -95,10 +98,17 @@
 					border-radius: 0.25rlh;
 					padding: 1em;
 					display: flex;
+					flex-direction: row;
 					gap: 0.5em;
 					font-weight: 500;
 					position: fixed;
 					inset: 1em;
+
+					:where(svg) {
+						block-size: 1lh;
+						flex-shrink: 0;
+						fill: currentColor;
+					}
 
 					@supports (anchor-name: --svg-icon--clicked) {
 						position: absolute;
@@ -122,11 +132,12 @@
 					&:where(.clicked) {
 						anchor-name: --svg-icon--clicked;
 					}
+
+					:where(svg) {
+						block-size: 100%;
+					}
 				}
 
-				:where(svg) {
-					block-size: 100%;
-				}
 			}
 		</style>
 	</head>
@@ -172,7 +183,14 @@
 				<svg viewBox="0 0 28 28">
 					<title>RSS</title>
 					<path
-						d="M0 24 A4 4 0 1 1 8 24 A4 4 0 1 1 0 24 Z M0 0 Q28 0 28 28 H22 Q22 6 0 6 Z M0 10 Q18 10 18 28 H12 Q12 16 0 16 Z"></path>
+						d="M0 24 A4 4 0 1 1 8 24 A4 4 0 1 1 0 24 Z M0 11 Q0 10 1 10 Q18 10 18 27 Q18 28 17 28 H13 Q12 28 12 27 Q12 16 1 16 Q0 16 0 15 Z M0 1 Q0 0 1 0 Q28 0 28 27 Q28 28 27 28 H23 Q22 28 22 27 Q22 6 1 6 Q0 6 0 5 Z"></path>
+				</svg>
+			</button>
+			<button>
+				<svg viewBox="0 0 34 28" data-icon="check">
+					<title>Check</title>
+					<path
+						d="M27 1 Q28 0 29 1 L33 5 Q34 6 33 7 L13 27 Q12 28 11 27 L1 17 Q0 16 1 15 L5 11 Q6 10 7 11 L12 16 Z"></path>
 				</svg>
 			</button>
 		</svg-icon-set>
