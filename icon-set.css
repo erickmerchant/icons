@@ -39,6 +39,10 @@ svg {
 		fill: currentColor;
 	}
 
+	> * {
+		flex-shrink: 0;
+	}
+
 	@supports (anchor-name: --svg-icon--clicked) {
 		position: absolute;
 		position-anchor: --svg-icon--clicked;

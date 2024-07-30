@@ -18,26 +18,40 @@
 			}
 
 			body {
+				max-block-size: 100%;
 				block-size: 100%;
-				display: grid;
-				place-content: safe center;
-				grid-template-columns: auto auto auto;
-				grid-template-rows: auto max-content auto;
+				overflow-y: hidden;
+				font-size: 100%;
 				gap: 1rem;
+				display: grid;
+				place-items: safe center;
 			}
 
 			icon-set {
-				grid-column: 2;
-				grid-row: 2;
+				max-height: 100dvh;
+				max-inline-size: 100%;
 				display: flex;
 				flex-wrap: wrap;
-				gap: 1rem;
+				gap: 2svh;
+				justify-content: safe center;
+				align-items: start;
 
 				> * {
-					block-size: 10em;
+					block-size: 15rem;
 					padding: 0.5em;
 					border-radius: 0.125rem;
-					outline: 0.125rem solid color-mix(in lch, currentcolor 15%, hsl(0 0% 0% / 0));
+				}
+
+				@media (width < 65rem) {
+					scroll-snap-type: y mandatory;
+					overflow-y: scroll;
+
+					> * {
+						block-size: auto;
+						max-block-size: 98dvh;
+						inline-size: 100dvw;
+						scroll-snap-align: center;
+					}
 				}
 			}
 		</style>

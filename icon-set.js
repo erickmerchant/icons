@@ -34,6 +34,9 @@ class IconSet extends HTMLElement {
 
 	connectedCallback() {
 		let shadow = this.attachShadow({mode: "open", slotAssignment: "manual"});
+
+		shadow.adoptedStyleSheets = [IconSet.#sheet];
+
 		let i = 0;
 
 		for (let svg of this.querySelectorAll("svg")) {
@@ -89,7 +92,6 @@ class IconSet extends HTMLElement {
 
 		this.#popover = div;
 
-		shadow.adoptedStyleSheets = [IconSet.#sheet];
 		shadow.append(div);
 	}
 }
