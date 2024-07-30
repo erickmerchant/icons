@@ -1,0 +1,50 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font: inherit;
+	max-inline-size: 100%;
+}
+
+button {
+	appearance: none;
+	background: hsl(0 0 0 / 0);
+	border: none;
+
+	&:where(.clicked) {
+		anchor-name: --svg-icon--clicked;
+	}
+}
+
+svg {
+	block-size: 100%;
+}
+
+:popover-open {
+	background: oklab(60% -0.4 0.2);
+	color: white;
+	border: none;
+	border-radius: 0.25rlh;
+	padding: 1em;
+	display: flex;
+	flex-direction: row;
+	gap: 0.5em;
+	font-weight: 500;
+	position: fixed;
+	inset: 1em;
+
+	:where(svg) {
+		block-size: 1lh;
+		flex-shrink: 0;
+		fill: currentColor;
+	}
+
+	@supports (anchor-name: --svg-icon--clicked) {
+		position: absolute;
+		position-anchor: --svg-icon--clicked;
+		top: calc(anchor(top) + 0.5em);
+		left: calc(anchor(left) + 0.5em);
+		padding: 0.5em;
+		font-size: 0.8em;
+	}
+}
