@@ -49,11 +49,11 @@ class IconSet extends HTMLElement {
 			slot.assign(svg);
 
 			button.addEventListener("click", (e) => {
-				this.dispatchEvent(new CustomEvent("copy", {detail: {button}}));
+				this.dispatchEvent(new CustomEvent("copy", {detail: {svg}}));
 			});
 
 			this.addEventListener("copy", async (e) => {
-				let clicked = e.detail?.button === button;
+				let clicked = e.detail?.svg === svg;
 
 				button.classList.toggle("clicked", clicked);
 
@@ -68,13 +68,13 @@ class IconSet extends HTMLElement {
 				}
 
 				this.#timeout = setTimeout(() => {
-					this.dispatchEvent(new CustomEvent("copy", {detail: {button: null}}));
+					this.dispatchEvent(new CustomEvent("copy", {detail: {svg: null}}));
 
 					this.#popover?.hidePopover();
 				}, 2_000);
 
 				try {
-					await navigator.clipboard.writeText(button.innerHTML?.trim?.());
+					await navigator.clipboard.writeText(svg.outerHTML?.trim?.());
 				} catch (_) {}
 			});
 		}
