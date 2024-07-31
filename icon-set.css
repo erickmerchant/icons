@@ -10,6 +10,7 @@ button {
 	appearance: none;
 	background: oklab(0% 0 0 / 0);
 	border: none;
+	display: grid;
 
 	&:where(.clicked) {
 		anchor-name: --svg-icon--clicked;

@@ -14,9 +14,14 @@ class IconSet extends HTMLElement {
 			}
 
 			button {
-					appearance: none;
-					background: hsl(0 0 0 / 0);
-					border: none;
+				appearance: none;
+				background: hsl(0 0 0 / 0);
+				border: none;
+				display: grid;
+			}
+
+			:popover-open {
+				display: none;
 			}
 		`);
 
