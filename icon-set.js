@@ -34,14 +34,22 @@ class IconSet extends HTMLElement {
 			});
 	}
 
-	#timeout;
-	#popover;
-
 	connectedCallback() {
 		let shadow = this.attachShadow({mode: "open", slotAssignment: "manual"});
 
 		shadow.adoptedStyleSheets = [IconSet.#sheet];
 
+		let popover = document.createElement("div");
+		let span = document.createElement("span");
+		let checkIcon = this.querySelector('[data-icon="check"]').cloneNode(true);
+
+		popover.toggleAttribute("popover", true);
+		span.append("Copied");
+		popover.append(checkIcon, span);
+
+		let popoverRef = new WeakRef(popover);
+
+		let timeout;
 		let i = 0;
 
 		for (let svg of this.querySelectorAll("svg")) {
@@ -56,47 +64,42 @@ class IconSet extends HTMLElement {
 
 			slot.assign(svg);
 
+			let buttonRef = new WeakRef(button);
+			let svgRef = new WeakRef(svg);
+
 			button.addEventListener("click", (e) => {
-				this.dispatchEvent(new CustomEvent("copy", {detail: {svg}}));
+				this.dispatchEvent(new CustomEvent("copy", {detail: svgRef}));
 			});
 
 			this.addEventListener("copy", async (e) => {
-				let clicked = e.detail?.svg === svg;
+				let clicked = e.detail?.deref() === svgRef.deref();
 
-				button.classList.toggle("clicked", clicked);
+				buttonRef.deref()?.classList.toggle("clicked", clicked);
 
 				if (!clicked) {
 					return;
 				}
 
-				this.#popover?.showPopover();
+				popoverRef.deref()?.showPopover();
 
-				if (this.#timeout) {
-					clearTimeout(this.#timeout);
+				if (timeout) {
+					clearTimeout(timeout);
 				}
 
-				this.#timeout = setTimeout(() => {
-					this.dispatchEvent(new CustomEvent("copy", {detail: {svg: null}}));
+				timeout = setTimeout(() => {
+					this.dispatchEvent(new CustomEvent("copy", {detail: null}));
 
-					this.#popover?.hidePopover();
+					popoverRef.deref()?.hidePopover();
 				}, 2_000);
 
 				try {
-					await navigator.clipboard.writeText(svg.outerHTML?.trim?.());
+					await navigator.clipboard.writeText(
+						svgRef.deref()?.outerHTML?.trim?.()
+					);
 				} catch (_) {}
 			});
 		}
 
-		let div = document.createElement("div");
-		let span = document.createElement("span");
-		let checkIcon = this.querySelector('[data-icon="check"]').cloneNode(true);
-
-		div.toggleAttribute("popover", true);
-		span.append("Copied");
-		div.append(checkIcon, span);
-
-		this.#popover = div;
-
-		shadow.append(div);
+		shadow.append(popover);
 	}
 }
