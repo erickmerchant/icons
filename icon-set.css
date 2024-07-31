@@ -8,7 +8,7 @@
 
 button {
 	appearance: none;
-	background: hsl(0 0 0 / 0);
+	background: oklab(0% 0 0 / 0);
 	border: none;
 
 	&:where(.clicked) {
