@@ -34,18 +34,10 @@ class IconSet extends HTMLElement {
 			});
 	}
 
-	#coolWarmToggle = Math.floor(Math.random() * 2) ? -1 : 1;
-
-	#getRandomColors() {
+	static #getRandomColors() {
 		let points = Array.from({length: 2}, () =>
-			(Math.random() * 0.3 + 0.1).toPrecision(5)
-		);
-
-		points[0] *= this.#coolWarmToggle;
-
-		this.#coolWarmToggle *= -1;
-
-		points = points.join(" ");
+			(Math.random() * 0.8 - 0.4).toPrecision(5)
+		).join(" ");
 
 		let light = `oklab(95% ${points})`;
 		let dark = `oklab(5% ${points})`;
@@ -68,7 +60,7 @@ class IconSet extends HTMLElement {
 		let i = 0;
 
 		for (let svg of this.querySelectorAll("svg")) {
-			let [background, foreground] = this.#getRandomColors();
+			let [background, foreground] = IconSet.#getRandomColors();
 			let slot = document.createElement("slot");
 			let button = document.createElement("button");
 
@@ -96,8 +88,9 @@ class IconSet extends HTMLElement {
 				}
 
 				popoverRef.deref()?.showPopover();
-				popoverRef.deref()?.style?.setProperty("color", foreground);
-				popoverRef.deref()?.style?.setProperty("background", background);
+				popoverRef.deref()?.style?.setProperty("color", background);
+				popoverRef.deref()?.style?.setProperty("background", foreground);
+				popoverRef.deref()?.style?.setProperty("border-color", background);
 
 				if (timeout) {
 					clearTimeout(timeout);
