@@ -18,9 +18,8 @@ button {
 }
 
 :popover-open {
-	background: oklab(60% -0.4 0.2);
 	color: white;
-	border: 1px solid currentColor;
+	border: 0.125rem solid currentColor;
 	border-radius: 0.25rlh;
 	padding: 1em;
 	display: flex;

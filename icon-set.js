@@ -34,15 +34,21 @@ class IconSet extends HTMLElement {
 			});
 	}
 
-	static #getRandomTheme() {
+	#coolWarmToggle = Math.floor(Math.random() * 2) ? -1 : 1;
+
+	#getRandomColors() {
 		let points = Array.from({length: 2}, () =>
-			(Math.random() * 0.8 - 0.4).toPrecision(5)
+			(Math.random() * 0.3 + 0.1).toPrecision(5)
 		);
 
-		points = `${points[0]} ${points[1]}`;
+		points[0] *= this.#coolWarmToggle;
 
-		let light = `oklab(97% ${points})`;
-		let dark = `oklab(3% ${points})`;
+		this.#coolWarmToggle *= -1;
+
+		points = points.join(" ");
+
+		let light = `oklab(95% ${points})`;
+		let dark = `oklab(5% ${points})`;
 
 		return [`light-dark(${light}, ${dark})`, `light-dark(${dark}, ${light})`];
 	}
@@ -62,7 +68,7 @@ class IconSet extends HTMLElement {
 		let i = 0;
 
 		for (let svg of this.querySelectorAll("svg")) {
-			let [background, foreground] = IconSet.#getRandomTheme();
+			let [background, foreground] = this.#getRandomColors();
 			let slot = document.createElement("slot");
 			let button = document.createElement("button");
 
@@ -90,9 +96,8 @@ class IconSet extends HTMLElement {
 				}
 
 				popoverRef.deref()?.showPopover();
-				popoverRef.deref()?.style?.setProperty("color", background);
-				popoverRef.deref()?.style?.setProperty("background", foreground);
-				popoverRef.deref()?.style?.setProperty("border-color", background);
+				popoverRef.deref()?.style?.setProperty("color", foreground);
+				popoverRef.deref()?.style?.setProperty("background", background);
 
 				if (timeout) {
 					clearTimeout(timeout);
