@@ -29,13 +29,7 @@ button {
 	font-weight: 500;
 	position: fixed;
 	inset-area: center center;
-	font-size: 1rem;
-
-	:where(svg) {
-		block-size: 1lh;
-		flex-shrink: 0;
-		fill: currentColor;
-	}
+	font-size: 1.25rem;
 
 	> * {
 		flex-shrink: 0;
