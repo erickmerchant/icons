@@ -17,6 +17,7 @@
 			html {
 				block-size: 100%;
 				font-family: system-ui, sans-serif;
+				color-scheme: light dark;
 			}
 
 			body {
@@ -33,18 +34,23 @@
 				display: flex;
 				flex-wrap: wrap;
 				gap: 2svh;
-				justify-content: safe center;
+				justify-content: safe start;
 				align-items: start;
+				max-width: 90svw;
+				margin-inline: auto;
 
 				> * {
 					block-size: 15rem;
 					padding: 0.5em;
 					border-radius: 0.125rem;
+					fill: currentColor;
 				}
 
 				@media (width < 65rem) {
+				max-width: 100svw;
 					scroll-snap-type: y mandatory;
 					overflow-y: scroll;
+					gap: 0;
 
 					> * {
 						padding: 5dvh;
@@ -89,7 +95,7 @@
 				<path
 					d="M0 24 A4 4 0 1 1 8 24 A4 4 0 1 1 0 24 Z M0 11 Q0 10 1 10 Q18 10 18 27 Q18 28 17 28 H13 Q12 28 12 27 Q12 16 1 16 Q0 16 0 15 Z M0 1 Q0 0 1 0 Q28 0 28 27 Q28 28 27 28 H23 Q22 28 22 27 Q22 6 1 6 Q0 6 0 5 Z"></path>
 			</svg>
-			<svg viewBox="0 0 34 28" data-icon="check">
+			<svg viewBox="0 0 34 28">
 				<title>Check</title>
 				<path
 					d="M27 1 Q28 0 29 1 L33 5 Q34 6 33 7 L13 27 Q12 28 11 27 L1 17 Q0 16 1 15 L5 11 Q6 10 7 11 L12 16 Z"></path>

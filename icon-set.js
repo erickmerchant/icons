@@ -34,34 +34,43 @@ class IconSet extends HTMLElement {
 			});
 	}
 
+	static #getRandomTheme() {
+		let points = Array.from({length: 2}, () =>
+			(Math.random() * 0.8 - 0.4).toPrecision(5)
+		);
+
+		points = `${points[0]} ${points[1]}`;
+
+		let light = `oklab(97% ${points})`;
+		let dark = `oklab(3% ${points})`;
+
+		return [`light-dark(${light}, ${dark})`, `light-dark(${dark}, ${light})`];
+	}
+
 	connectedCallback() {
 		let shadow = this.attachShadow({mode: "open", slotAssignment: "manual"});
 
 		shadow.adoptedStyleSheets = [IconSet.#sheet];
 
 		let popover = document.createElement("div");
-		let span = document.createElement("span");
-		let checkIcon = this.querySelector('[data-icon="check"]').cloneNode(true);
 
 		popover.toggleAttribute("popover", true);
-		span.append("Copied");
-		popover.append(checkIcon, span);
+		popover.append("Copied");
 
 		let popoverRef = new WeakRef(popover);
-
 		let timeout;
 		let i = 0;
 
 		for (let svg of this.querySelectorAll("svg")) {
+			let [background, foreground] = IconSet.#getRandomTheme();
 			let slot = document.createElement("slot");
-
-			slot.setAttribute("name", `icon-${i++}`);
-
 			let button = document.createElement("button");
 
+			slot.setAttribute("name", `icon-${i++}`);
 			button.append(slot);
+			button.style.setProperty("background", background);
+			button.style.setProperty("color", foreground);
 			shadow.append(button);
-
 			slot.assign(svg);
 
 			let buttonRef = new WeakRef(button);
@@ -81,6 +90,9 @@ class IconSet extends HTMLElement {
 				}
 
 				popoverRef.deref()?.showPopover();
+				popoverRef.deref()?.style?.setProperty("color", background);
+				popoverRef.deref()?.style?.setProperty("background", foreground);
+				popoverRef.deref()?.style?.setProperty("border-color", background);
 
 				if (timeout) {
 					clearTimeout(timeout);
@@ -94,7 +106,7 @@ class IconSet extends HTMLElement {
 
 				try {
 					await navigator.clipboard.writeText(
-						svgRef.deref()?.outerHTML?.trim?.()
+						svgRef.deref()?.outerHTML?.trim()
 					);
 				} catch (_) {}
 			});
