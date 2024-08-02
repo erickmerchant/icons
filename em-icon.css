@@ -30,8 +30,7 @@ button {
 	gap: 0.5em;
 	font-weight: 500;
 	position: fixed;
-	inset-block: anchor(top) anchor(bottom);
-	inset-inline: anchor(left) anchor(right);
+	margin: auto;
 	inset-area: center;
 	font-size: 1.25rem;
 

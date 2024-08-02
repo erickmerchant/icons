@@ -39,6 +39,7 @@ class EmIcon extends HTMLElement {
 	}
 
 	#clipboard = "";
+	#popoverRef;
 
 	connectedCallback() {
 		let points = Array.from({length: 2}, () =>
@@ -63,7 +64,7 @@ class EmIcon extends HTMLElement {
 		popover.toggleAttribute("popover", true);
 		popover.append("Copied");
 
-		let popoverRef = new WeakRef(popover);
+		this.#popoverRef = new WeakRef(popover);
 		let svg = this.querySelector("svg");
 
 		if (svg) {
@@ -76,10 +77,10 @@ class EmIcon extends HTMLElement {
 			shadow.append(button);
 
 			button.addEventListener("click", async (e) => {
-				popoverRef.deref()?.showPopover();
+				this.#popoverRef.deref()?.showPopover();
 
 				setTimeout(() => {
-					popoverRef.deref()?.hidePopover();
+					this.#popoverRef.deref()?.hidePopover();
 				}, 2_000);
 
 				try {
