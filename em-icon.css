@@ -6,19 +6,22 @@
 	max-inline-size: 100%;
 }
 
+:host {
+	display: grid;
+}
+
 button {
 	appearance: none;
-	background: oklab(0% 0 0 / 0);
+	background: var(--background);
+	color: var(--foreground);
 	border: none;
 	display: grid;
-
-	&:where(.clicked) {
-		anchor-name: --svg-icon--clicked;
-	}
+	anchor-name: --self;
 }
 
 :popover-open {
-	color: white;
+	background: var(--background);
+	color: var(--foreground);
 	border: 0.125rem solid currentColor;
 	border-radius: 0.25rlh;
 	padding: 1em;
@@ -27,16 +30,18 @@ button {
 	gap: 0.5em;
 	font-weight: 500;
 	position: fixed;
-	inset-area: center center;
+	inset-block: anchor(top) anchor(bottom);
+	inset-inline: anchor(left) anchor(right);
+	inset-area: center;
 	font-size: 1.25rem;
 
 	> * {
 		flex-shrink: 0;
 	}
 
-	@supports (anchor-name: --svg-icon--clicked) {
+	@supports (anchor-name: --self) {
 		position: absolute;
-		position-anchor: --svg-icon--clicked;
+		position-anchor: --self;
 		top: calc(anchor(top) + 0.5em);
 		left: calc(anchor(left) + 0.5em);
 		padding: 0.5em;
