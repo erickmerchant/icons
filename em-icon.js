@@ -15,27 +15,47 @@ class EmIcon extends HTMLElement {
 
 			:host {
 				display: grid;
+				--background: light-dark(var(--light), var(--dark));
+				--foreground: light-dark(var(--dark), var(--light));
 			}
 
 			button {
 				appearance: none;
-				background: hsl(0 0 0 / 0);
+				background: var(--background);
+				color: var(--foreground);
 				border: none;
 				display: grid;
+				anchor-name: --self;
 			}
 
 			:popover-open {
-				display: none;
+				background: var(--background);
+				color: var(--foreground);
+				border: 0.125rem solid currentColor;
+				border-radius: 0.25rlh;
+				padding: 1em;
+				display: flex;
+				flex-direction: row;
+				gap: 0.5em;
+				font-weight: 500;
+				position: fixed;
+				margin: auto;
+				inset-area: center;
+				font-size: 1.25rem;
+
+				> * {
+					flex-shrink: 0;
+				}
+
+				@supports (anchor-name: --self) {
+					position: absolute;
+					position-anchor: --self;
+					top: calc(anchor(top) + 0.5em);
+					left: calc(anchor(left) + 0.5em);
+					padding: 0.5em;
+				}
 			}
 		`);
-
-		let cssUrl = new URL("./em-icon.css", import.meta.url);
-
-		fetch(cssUrl)
-			.then((res) => res.text())
-			.then((css) => {
-				this.#sheet.replaceSync(css);
-			});
 	}
 
 	#clipboard = "";
@@ -47,12 +67,10 @@ class EmIcon extends HTMLElement {
 		).join(" ");
 
 		let theme = new CSSStyleSheet();
-		let light = `oklab(95% ${points})`;
-		let dark = `oklab(5% ${points})`;
 
 		theme.replaceSync(`:host {
-			--background: light-dark(${light}, ${dark});
-			--foreground: light-dark(${dark}, ${light});
+			--light: oklab(95% ${points});
+			--dark: oklab(5% ${points});
 		}`);
 
 		let shadow = this.attachShadow({mode: "open"});
