@@ -1,63 +1,4 @@
 class EmIcon extends HTMLElement {
-	static #sheet = new CSSStyleSheet();
-
-	static {
-		customElements.define("em-icon", EmIcon);
-
-		this.#sheet.replaceSync(`
-			* {
-				box-sizing: border-box;
-				margin: 0;
-				padding: 0;
-				font: inherit;
-				max-inline-size: 100%;
-			}
-
-			:host {
-				display: grid;
-				--background: light-dark(var(--light), var(--dark));
-				--foreground: light-dark(var(--dark), var(--light));
-			}
-
-			button {
-				appearance: none;
-				background: var(--background);
-				color: var(--foreground);
-				border: none;
-				display: grid;
-				anchor-name: --self;
-			}
-
-			:popover-open {
-				background: var(--background);
-				color: var(--foreground);
-				border: 0.125rem solid currentColor;
-				border-radius: 0.25rlh;
-				padding: 1em;
-				display: flex;
-				flex-direction: row;
-				gap: 0.5em;
-				font-weight: 500;
-				position: fixed;
-				margin: auto;
-				inset-area: center;
-				font-size: 1.25rem;
-
-				> * {
-					flex-shrink: 0;
-				}
-
-				@supports (anchor-name: --self) {
-					position: absolute;
-					position-anchor: --self;
-					top: calc(anchor(top) + 0.5em);
-					left: calc(anchor(left) + 0.5em);
-					padding: 0.5em;
-				}
-			}
-		`);
-	}
-
 	#clipboard = "";
 	#popoverRef;
 
@@ -73,9 +14,9 @@ class EmIcon extends HTMLElement {
 			--dark: oklab(5% ${points});
 		}`);
 
-		let shadow = this.attachShadow({mode: "open"});
+		let shadow = this.shadowRoot ?? this.attachShadow({mode: "open"});
 
-		shadow.adoptedStyleSheets = [EmIcon.#sheet, theme];
+		shadow.adoptedStyleSheets = [theme];
 
 		let popover = document.createElement("div");
 
@@ -110,3 +51,5 @@ class EmIcon extends HTMLElement {
 		shadow.append(popover);
 	}
 }
+
+customElements.define("em-icon", EmIcon);
