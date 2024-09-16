@@ -7,6 +7,13 @@
 }
 
 :host {
+	display: grid;
+	place-content: safe center;
+	block-size: 100%;
+	container-type: inline-size;
+}
+
+em-icon-set-icons {
 	inline-size: auto;
 	display: flex;
 	flex-wrap: wrap;
@@ -23,12 +30,12 @@
 	}
 
 	@container (inline-size < 50rem) {
-		max-width: 100svw;
+		max-inline-size: 100cqi;
 		gap: 0;
 
 		> * {
 			block-size: auto;
-			inline-size: 100svw;
+			inline-size: 100cqi;
 		}
 	}
 }
@@ -73,9 +80,9 @@ button {
 
 svg {
 	display: grid;
-	inline-size: 100svw;
+	inline-size: 100cqi;
 	block-size: auto;
-	padding: 5svw;
+	padding: 5cqi;
 
 	@container (inline-size >= 50rem) {
 		padding: 1rem;

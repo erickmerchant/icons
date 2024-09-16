@@ -16,8 +16,6 @@ html {
 body {
 	min-block-size: 100%;
 	font-size: 100%;
-	display: grid;
-	place-content: safe center;
-	container-type: inline-size;
 	scroll-snap-type: y mandatory;
+	display: grid;
 }
