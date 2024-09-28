@@ -2,12 +2,11 @@ class EmIconSet extends HTMLElement {
 	#timeout;
 
 	connectedCallback() {
-		let shadow = this.shadowRoot;
 		let i = 0;
 
-		shadow.addEventListener("click", this);
+		this.addEventListener("click", this);
 
-		for (let button of shadow.querySelectorAll("button")) {
+		for (let button of this.querySelectorAll("button")) {
 			i += 1;
 
 			let points = Array.from({length: 2}, () =>
@@ -57,4 +56,3 @@ class EmIconSet extends HTMLElement {
 }
 
 customElements.define("em-icon-set", EmIconSet);
-customElements.define("em-icons", class extends HTMLElement {});

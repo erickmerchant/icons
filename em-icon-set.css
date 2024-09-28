@@ -13,7 +13,7 @@
 	container-type: inline-size;
 }
 
-em-icons {
+em-icon-set {
 	inline-size: auto;
 	display: flex;
 	flex-wrap: wrap;
