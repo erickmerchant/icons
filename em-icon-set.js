@@ -27,7 +27,7 @@ class EmIconSet extends HTMLElement {
 			let popover = button.querySelector("[popover]");
 			let clipboard = svg ? svg.outerHTML.trim() : "";
 
-			button.classList.add("clicked");
+			button.className = "clicked";
 
 			if (this.#timeout) {
 				clearTimeout(this.#timeout);
@@ -47,7 +47,7 @@ class EmIconSet extends HTMLElement {
 			this.#timeout = setTimeout(() => {
 				popover.hidePopover();
 
-				button.classList.remove("clicked");
+				button.className = "";
 			}, 2_000);
 
 			navigator.clipboard.writeText(clipboard).finally((_) => {});
