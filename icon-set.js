@@ -1,4 +1,4 @@
-class EmIconSet extends HTMLElement {
+class IconSet extends HTMLElement {
 	#timeout;
 
 	connectedCallback() {
@@ -55,4 +55,4 @@ class EmIconSet extends HTMLElement {
 	}
 }
 
-customElements.define("em-icon-set", EmIconSet);
+customElements.define("icon-set", IconSet);
