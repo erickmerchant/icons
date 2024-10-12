@@ -21,4 +21,5 @@ body {
 	place-content: safe center;
 	block-size: 100%;
 	container-type: inline-size;
+	overflow-y: auto;
 }
