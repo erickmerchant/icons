@@ -5,12 +5,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Icon Gallery</title>
 		<link rel="stylesheet" href="./page.css" />
+		<script type="importmap">
+		{
+			"imports": {
+				"vanilla-kit": "https://cdn.jsdelivr.net/gh/erickmerchant/vanilla-kit@v3.1.2/lib.min.js"
+			}
+		}
+		</script>
+		<script type="module" src="./icon-set.js"></script>
 	</head>
 	<body>
 		<div>
 			<template shadowrootmode="open">
 				<link rel="stylesheet" href="./icon-set.css" />
-				<script type="module" src="./icon-set.js"></script>
 				<icon-set>
 					<button>
 						<svg viewBox="0 0 20 24">

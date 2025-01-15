@@ -1,58 +1,49 @@
-class IconSet extends HTMLElement {
-	#timeout;
+import {define, effect, html, watch} from "vanilla-kit";
 
-	connectedCallback() {
-		let i = 0;
+let {div} = html;
 
-		this.addEventListener("click", this);
+define("icon-set", (host) => {
+	let timeout;
+	let state = watch({clicked: -1});
+	let i = 0;
 
-		for (let button of this.querySelectorAll("button")) {
-			i += 1;
+	for (let button of host.find("button")) {
+		let index = i++;
 
-			let points = Array.from({length: 2}, () =>
-				(Math.random() * 0.8 - 0.4).toPrecision(5)
-			).join(" ");
+		let points = Array.from({length: 2}, () =>
+			(Math.random() * 0.8 - 0.4).toPrecision(5)
+		).join(" ");
 
-			button.style.setProperty("--light", `oklab(95% ${points})`);
-			button.style.setProperty("--dark", `oklab(5% ${points})`);
-			button.style.setProperty("--anchor-name", `--button-${i}`);
-		}
-	}
+		let popover = div().attr("popover", true).text("Copied");
+		let content = button.deref().innerHTML.trim();
 
-	handleEvent(e) {
-		let button = e.target.closest("button");
+		button
+			.classes({clicked: () => state.clicked === index})
+			.on("click", (e) => {
+				state.clicked = index;
+			})
+			.styles({
+				"--light": `oklab(95% ${points})`,
+				"--dark": `oklab(5% ${points})`,
+				"--anchor-name": `--button-${index}`,
+			})
+			.nodes(popover);
 
-		if (button) {
-			let svg = button.querySelector("svg");
-			let popover = button.querySelector("[popover]");
-			let clipboard = svg ? svg.outerHTML.trim() : "";
+		effect(() => {
+			if (state.clicked === index) {
+				if (timeout) {
+					clearTimeout(timeout);
+				}
 
-			button.className = "clicked";
+				popover.deref().showPopover();
+				navigator.clipboard.writeText(content).finally((_) => {});
 
-			if (this.#timeout) {
-				clearTimeout(this.#timeout);
+				timeout = setTimeout(() => {
+					popover.hidePopover();
+
+					button.className = "";
+				}, 2_000);
 			}
-
-			if (!popover) {
-				popover = document.createElement("div");
-
-				popover.toggleAttribute("popover", true);
-				popover.append("Copied");
-
-				button.append(popover);
-			}
-
-			popover.showPopover();
-
-			this.#timeout = setTimeout(() => {
-				popover.hidePopover();
-
-				button.className = "";
-			}, 2_000);
-
-			navigator.clipboard.writeText(clipboard).finally((_) => {});
-		}
+		});
 	}
-}
-
-customElements.define("icon-set", IconSet);
+});
