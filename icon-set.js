@@ -39,9 +39,7 @@ define("icon-set", (host) => {
 				navigator.clipboard.writeText(content).finally((_) => {});
 
 				timeout = setTimeout(() => {
-					popover.hidePopover();
-
-					button.className = "";
+					popover.deref().hidePopover();
 				}, 2_000);
 			}
 		});
