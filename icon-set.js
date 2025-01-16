@@ -39,8 +39,10 @@ define("icon-set", (host) => {
 				navigator.clipboard.writeText(content).finally((_) => {});
 
 				timeout = setTimeout(() => {
-					popover.deref().hidePopover();
+					state.clicked = -1;
 				}, 2_000);
+			} else {
+				popover.deref().hidePopover();
 			}
 		});
 	}
