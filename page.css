@@ -16,10 +16,8 @@ html {
 body {
 	min-block-size: 100%;
 	font-size: 100%;
-	scroll-snap-type: y mandatory;
 	display: grid;
 	place-content: safe center;
 	block-size: 100%;
 	container-type: inline-size;
-	overflow-y: auto;
 }
