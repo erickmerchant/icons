@@ -18,6 +18,5 @@ body {
 	font-size: 100%;
 	display: grid;
 	place-content: safe center;
-	block-size: 100%;
 	container-type: inline-size;
 }
