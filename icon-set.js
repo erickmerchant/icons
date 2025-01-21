@@ -2,7 +2,7 @@ import {define, effect, html, watch} from "vanilla-kit";
 
 let {div} = html;
 
-define("icon-set", (host) => {
+define("icon-set").connected((host) => {
 	let timeout;
 	let state = watch({clicked: -1});
 	let i = 0;
