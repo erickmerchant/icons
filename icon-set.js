@@ -1,8 +1,12 @@
-import {effect, html, watch} from "vanilla-kit/prelude/min.js";
+import {effect, html, watch} from "vanilla-kit/lib.js";
 import {define} from "vanilla-kit/define.js";
+import "vanilla-kit/element/attr.js";
 import "vanilla-kit/element/classes.js";
+import "vanilla-kit/element/nodes.js";
 import "vanilla-kit/element/observe.js";
+import "vanilla-kit/element/on.js";
 import "vanilla-kit/element/styles.js";
+import "vanilla-kit/element/text.js";
 
 let {div} = html;
 
