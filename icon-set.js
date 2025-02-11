@@ -3,6 +3,7 @@ import {watch, effect} from "handcraft/reactivity.js";
 import {define} from "handcraft/define.js";
 import "handcraft/element/attr.js";
 import "handcraft/element/classes.js";
+import "handcraft/element/effect.js";
 import "handcraft/element/nodes.js";
 import "handcraft/element/observe.js";
 import "handcraft/element/on.js";
@@ -26,8 +27,24 @@ define("icon-set").connected((host) => {
 				(Math.random() * 0.8 - 0.4).toPrecision(5)
 			).join(" ");
 
-			let popover = div().attr("popover", true).text("Copied");
-			let content = button.deref().innerHTML.trim();
+			let popover = div()
+				.attr("popover", true)
+				.text("Copied")
+				.effect((el) => {
+					if (state.clicked === index) {
+						if (timeout) {
+							clearTimeout(timeout);
+						}
+
+						el.showPopover();
+
+						timeout = setTimeout(() => {
+							state.clicked = -1;
+						}, 2_000);
+					} else {
+						el.hidePopover();
+					}
+				});
 
 			button
 				.classes({clicked: () => state.clicked === index})
@@ -39,24 +56,14 @@ define("icon-set").connected((host) => {
 					"--dark": `oklab(5% ${points})`,
 					"--anchor-name": `--button-${index}`,
 				})
-				.nodes(...button.deref().children, popover);
-
-			effect(() => {
-				if (state.clicked === index) {
-					if (timeout) {
-						clearTimeout(timeout);
+				.nodes(popover)
+				.effect((el) => {
+					if (state.clicked === index) {
+						navigator.clipboard
+							.writeText(el.innerHTML.trim())
+							.finally((_) => {});
 					}
-
-					popover.deref().showPopover();
-					navigator.clipboard.writeText(content).finally((_) => {});
-
-					timeout = setTimeout(() => {
-						state.clicked = -1;
-					}, 2_000);
-				} else {
-					popover.deref().hidePopover();
-				}
-			});
+				});
 		}
 	});
 });
