@@ -48,15 +48,15 @@ define("icon-set").connected((host) => {
 
 			button
 				.classes({clicked: () => state.clicked === index})
-				.on("click", (e) => {
-					state.clicked = index;
-				})
 				.styles({
 					"--light": `oklab(95% ${points})`,
 					"--dark": `oklab(5% ${points})`,
 					"--anchor-name": `--button-${index}`,
 				})
 				.nodes(popover)
+				.on("click", (e) => {
+					state.clicked = index;
+				})
 				.effect((el) => {
 					if (state.clicked === index) {
 						navigator.clipboard
