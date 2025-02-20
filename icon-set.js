@@ -10,7 +10,7 @@ import "handcraft/element/on.js";
 import "handcraft/element/styles.js";
 import "handcraft/element/text.js";
 
-let {div} = html;
+let {div: DIV} = html;
 
 define("icon-set").connected((host) => {
 	let timeout;
@@ -27,7 +27,7 @@ define("icon-set").connected((host) => {
 				(Math.random() * 0.8 - 0.4).toPrecision(5)
 			).join(" ");
 
-			let popover = div()
+			let popover = DIV()
 				.attr("popover", true)
 				.text("Copied")
 				.effect((el) => {
