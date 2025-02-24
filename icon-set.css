@@ -1,81 +1,83 @@
-icon-set {
-	inline-size: auto;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1rem;
-	justify-content: safe center;
-	align-content: safe center;
-	margin-inline: auto;
-	scroll-snap-type: y mandatory;
-
-	> * {
-		border-radius: 0.125rem;
-		fill: currentColor;
-		scroll-snap-align: center;
-	}
-
-	@container (inline-size < 50rem) {
-		max-inline-size: 100cqi;
-		gap: 0;
-
-		> * {
-			block-size: auto;
-			inline-size: 100cqi;
-		}
-	}
-
-	:where(:popover-open) {
-		background: var(--background);
-		color: var(--foreground);
-		border: 0.125rem solid currentColor;
-		border-radius: 0.25rlh;
-		padding: 1em;
+@layer component {
+	icon-set {
+		inline-size: auto;
 		display: flex;
-		flex-direction: row;
-		gap: 0.5em;
-		font-weight: 500;
-		position: fixed;
-		margin: auto;
-		position-area: center;
-		font-size: 1.25rem;
+		flex-wrap: wrap;
+		gap: 1rem;
+		justify-content: safe center;
+		align-content: safe center;
+		margin-inline: auto;
+		scroll-snap-type: y mandatory;
 
 		> * {
-			flex-shrink: 0;
+			border-radius: 0.125rem;
+			fill: currentColor;
+			scroll-snap-align: center;
 		}
 
-		@supports (anchor-name: --a) {
-			position: absolute;
-			position-anchor: var(--anchor-name);
-			top: calc(anchor(top) + 0.5em);
-			left: calc(anchor(left) + 0.5em);
-			padding: 0.5em;
+		@container (inline-size < 50rem) {
+			max-inline-size: 100cqi;
+			gap: 0;
+
+			> * {
+				block-size: auto;
+				inline-size: 100cqi;
+			}
 		}
-	}
 
-	:where(button) {
-		appearance: none;
-		background: var(--background);
-		color: var(--foreground);
-		border: none;
-		display: grid;
-		--background: light-dark(var(--light), var(--dark));
-		--foreground: light-dark(var(--dark), var(--light));
-	}
+		:where(:popover-open) {
+			background: var(--background);
+			color: var(--foreground);
+			border: 0.125rem solid currentColor;
+			border-radius: 0.25rlh;
+			padding: 1em;
+			display: flex;
+			flex-direction: row;
+			gap: 0.5em;
+			font-weight: 500;
+			position: fixed;
+			margin: auto;
+			position-area: center;
+			font-size: 1.25rem;
 
-	:where(svg) {
-		display: grid;
-		inline-size: 100cqi;
-		block-size: auto;
-		padding: 5cqi;
+			> * {
+				flex-shrink: 0;
+			}
 
-		@container (inline-size >= 50rem) {
-			padding: 1rem;
-			inline-size: auto;
-			block-size: 15rem;
+			@supports (anchor-name: --a) {
+				position: absolute;
+				position-anchor: var(--anchor-name);
+				top: calc(anchor(top) + 0.5em);
+				left: calc(anchor(left) + 0.5em);
+				padding: 0.5em;
+			}
 		}
-	}
 
-	:where(.clicked) {
-		anchor-name: var(--anchor-name);
+		:where(button) {
+			appearance: none;
+			background: var(--background);
+			color: var(--foreground);
+			border: none;
+			display: grid;
+			--background: light-dark(var(--light), var(--dark));
+			--foreground: light-dark(var(--dark), var(--light));
+		}
+
+		:where(svg) {
+			display: grid;
+			inline-size: 100cqi;
+			block-size: auto;
+			padding: 5cqi;
+
+			@container (inline-size >= 50rem) {
+				padding: 1rem;
+				inline-size: auto;
+				block-size: 15rem;
+			}
+		}
+
+		:where(.clicked) {
+			anchor-name: var(--anchor-name);
+		}
 	}
 }
