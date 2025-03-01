@@ -31,25 +31,25 @@
 			border: 0.125rem solid currentColor;
 			border-radius: 0.25rlh;
 			padding: 1em;
-			display: flex;
-			flex-direction: row;
 			gap: 0.5em;
 			font-weight: 500;
 			position: fixed;
-			margin: auto;
-			position-area: center;
+			place-self: center;
+			width: fit-content;
 			font-size: 1.25rem;
+			--light: oklab(95% var(--color));
+			--dark: oklab(5% var(--color));
+			--background: light-dark(var(--light), var(--dark));
+			--foreground: light-dark(var(--dark), var(--light));
+
+			@supports (position-anchor: --button-0) {
+				position-anchor: var(--anchor-name);
+				position-area: center center;
+				place-self: unset;
+			}
 
 			> * {
 				flex-shrink: 0;
-			}
-
-			@supports (anchor-name: --a) {
-				position: absolute;
-				position-anchor: var(--anchor-name);
-				top: calc(anchor(top) + 0.5em);
-				left: calc(anchor(left) + 0.5em);
-				padding: 0.5em;
 			}
 		}
 
@@ -59,6 +59,8 @@
 			color: var(--foreground);
 			border: none;
 			display: grid;
+			--light: oklab(95% var(--color));
+			--dark: oklab(5% var(--color));
 			--background: light-dark(var(--light), var(--dark));
 			--foreground: light-dark(var(--dark), var(--light));
 		}
