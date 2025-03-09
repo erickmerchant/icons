@@ -28,7 +28,7 @@
 		:where(:popover-open) {
 			background: var(--background);
 			color: var(--foreground);
-			border: 0.125rem solid currentColor;
+			border: 0.25rem solid currentColor;
 			border-radius: 0.25rlh;
 			padding: 1em;
 			gap: 0.5em;
@@ -79,7 +79,7 @@
 		}
 
 		:where(.clicked) {
-			anchor-name: var(--anchor-name);
+			filter: blur(0.25em);
 		}
 	}
 }

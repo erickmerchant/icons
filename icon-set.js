@@ -1,14 +1,15 @@
-import {html} from "handcraft/dom.js";
 import "handcraft/dom/attr.js";
 import "handcraft/dom/classes.js";
 import "handcraft/dom/effect.js";
-import "handcraft/dom/nodes.js";
+import "handcraft/dom/append.js";
 import "handcraft/dom/observe.js";
 import "handcraft/dom/on.js";
 import "handcraft/dom/styles.js";
 import "handcraft/dom/text.js";
+import {html} from "handcraft/dom.js";
 import {watch, effect} from "handcraft/reactivity.js";
 import {define} from "handcraft/define.js";
+import {when} from "handcraft/when.js";
 
 let {div: DIV} = html;
 
@@ -18,30 +19,40 @@ define("icon-set").connected((host) => {
 	let i = -1;
 	let observed = host.observe();
 	let buttons = observed.find(":scope > button");
-	let popover = DIV()
-		.attr("popover", true)
-		.styles({
-			"--color": () => state.color,
-			"--anchor-name": () => state.anchorName,
-		})
-		.text("Copied")
-		.effect((el) => {
-			if (state.color != null) {
-				if (timeout) {
-					clearTimeout(timeout);
-				}
 
-				el.showPopover();
+	host.append(
+		when((previous) => previous || state.color != null).show(() =>
+			DIV()
+				.attr("popover", true)
+				.styles({
+					"--color": () => state.color,
+					"--anchor-name": () => state.anchorName,
+				})
+				.text("Copied")
+				.on("beforetoggle", (e) => {
+					if (e.newState === "closed") {
+						state.color = null;
+						state.anchorName = null;
+					}
+				})
+				.effect((el) => {
+					if (state.color != null) {
+						if (timeout) {
+							clearTimeout(timeout);
+						}
 
-				timeout = setTimeout(() => {
-					state.color = null;
-				}, 2_000);
-			} else {
-				el.hidePopover();
-			}
-		});
+						el.showPopover();
 
-	host.nodes(popover);
+						timeout = setTimeout(() => {
+							state.color = null;
+							state.anchorName = null;
+						}, 2_000);
+					} else {
+						el.hidePopover();
+					}
+				})
+		)
+	);
 
 	effect(() => {
 		for (let button of buttons) {
@@ -52,6 +63,7 @@ define("icon-set").connected((host) => {
 			).join(" ");
 
 			button
+				.classes({clicked: () => state.anchorName === anchorName})
 				.styles({"--color": color, "anchor-name": anchorName})
 				.on("click", () => {
 					state.color = color;
