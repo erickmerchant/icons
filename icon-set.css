@@ -24,8 +24,35 @@
 				inline-size: 100cqi;
 			}
 		}
+	}
 
-		:where(:popover-open) {
+	:where(icon-set) {
+		button {
+			appearance: none;
+			background: var(--background);
+			color: var(--foreground);
+			border: none;
+			display: grid;
+			--light: oklab(95% var(--color));
+			--dark: oklab(5% var(--color));
+			--background: light-dark(var(--light), var(--dark));
+			--foreground: light-dark(var(--dark), var(--light));
+		}
+
+		svg {
+			display: grid;
+			inline-size: 100cqi;
+			block-size: auto;
+			padding: 5cqi;
+
+			@container (inline-size >= 50rem) {
+				padding: 1rem;
+				inline-size: auto;
+				block-size: 15rem;
+			}
+		}
+
+		:popover-open {
 			background: var(--background);
 			color: var(--foreground);
 			border: 0.25rem solid currentColor;
@@ -53,32 +80,7 @@
 			}
 		}
 
-		:where(button) {
-			appearance: none;
-			background: var(--background);
-			color: var(--foreground);
-			border: none;
-			display: grid;
-			--light: oklab(95% var(--color));
-			--dark: oklab(5% var(--color));
-			--background: light-dark(var(--light), var(--dark));
-			--foreground: light-dark(var(--dark), var(--light));
-		}
-
-		:where(svg) {
-			display: grid;
-			inline-size: 100cqi;
-			block-size: auto;
-			padding: 5cqi;
-
-			@container (inline-size >= 50rem) {
-				padding: 1rem;
-				inline-size: auto;
-				block-size: 15rem;
-			}
-		}
-
-		:where(.clicked) {
+		.clicked {
 			filter: blur(0.25em);
 		}
 	}

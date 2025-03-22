@@ -7,14 +7,14 @@
 		max-inline-size: 100%;
 	}
 
-	html {
+	:root {
 		block-size: 100%;
 		font-family: system-ui, sans-serif;
 		color-scheme: light dark;
 		scroll-snap-type: y mandatory;
 	}
 
-	body {
+	.page {
 		min-block-size: 100%;
 		font-size: 100%;
 		display: grid;
