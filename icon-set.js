@@ -20,6 +20,28 @@ define("icon-set").connected((host) => {
 	let i = -1;
 	let observed = host.observe();
 	let buttons = observed.find(":scope > button");
+	let popoverBeforeToggle = (e) => {
+		if (e.newState === "closed") {
+			state.color = null;
+			state.anchorName = null;
+		}
+	};
+	let popoverEffect = (el) => {
+		if (state.color != null) {
+			if (timeout) {
+				clearTimeout(timeout);
+			}
+
+			el.showPopover();
+
+			timeout = setTimeout(() => {
+				state.color = null;
+				state.anchorName = null;
+			}, 2_000);
+		} else {
+			el.hidePopover();
+		}
+	};
 
 	host.append(
 		when((previous) => previous || state.color != null).show(() =>
@@ -30,53 +52,32 @@ define("icon-set").connected((host) => {
 					"--anchor-name": () => state.anchorName,
 				})
 				.text("Copied")
-				.on("beforetoggle", (e) => {
-					if (e.newState === "closed") {
-						state.color = null;
-						state.anchorName = null;
-					}
-				})
-				.effect((el) => {
-					if (state.color != null) {
-						if (timeout) {
-							clearTimeout(timeout);
-						}
-
-						el.showPopover();
-
-						timeout = setTimeout(() => {
-							state.color = null;
-							state.anchorName = null;
-						}, 2_000);
-					} else {
-						el.hidePopover();
-					}
-				})
+				.on("beforetoggle", popoverBeforeToggle)
+				.effect(popoverEffect)
 		)
 	);
 
 	effect(() => {
 		for (let button of buttons) {
 			let anchorName = `--button-${++i}`;
-
 			let color = Array.from({length: 2}, () =>
 				(Math.random() * 0.8 - 0.4).toPrecision(5)
 			).join(" ");
+			let setColorAndAnchorName = () => {
+				state.color = color;
+				state.anchorName = anchorName;
+			};
+			let copyToClipboard = (el) => {
+				if (state.color === color) {
+					navigator.clipboard.writeText(el.innerHTML.trim()).finally((_) => {});
+				}
+			};
 
 			button
 				.classes({clicked: () => state.anchorName === anchorName})
 				.styles({"--color": color, "anchor-name": anchorName})
-				.on("click", () => {
-					state.color = color;
-					state.anchorName = anchorName;
-				})
-				.effect((el) => {
-					if (state.color === color) {
-						navigator.clipboard
-							.writeText(el.innerHTML.trim())
-							.finally((_) => {});
-					}
-				});
+				.on("click", setColorAndAnchorName)
+				.effect(copyToClipboard);
 		}
 	});
 });
