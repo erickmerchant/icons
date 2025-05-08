@@ -1,18 +1,15 @@
-import "handcraft/dom/_nodes.js";
-import "handcraft/dom/append.js";
-import "handcraft/dom/attr.js";
 import "handcraft/dom/classes.js";
 import "handcraft/dom/effect.js";
 import "handcraft/dom/observe.js";
 import "handcraft/dom/on.js";
 import "handcraft/dom/styles.js";
 import "handcraft/dom/text.js";
-import {html} from "handcraft/dom.js";
+import {h} from "handcraft/dom.js";
 import {watch, effect} from "handcraft/reactivity.js";
 import {define} from "handcraft/define.js";
 import {when} from "handcraft/when.js";
 
-let {div: DIV} = html;
+let {div: DIV} = h.html;
 
 define("icon-set").connected((host) => {
 	let timeout;
@@ -43,10 +40,9 @@ define("icon-set").connected((host) => {
 		}
 	};
 
-	host.append(
+	host(
 		when((previous) => previous || state.color != null).show(() =>
-			DIV()
-				.attr("popover", true)
+			DIV.popover(true)
 				.styles({
 					"--color": () => state.color,
 					"--anchor-name": () => state.anchorName,
