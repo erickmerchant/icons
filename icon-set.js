@@ -9,7 +9,7 @@ import {watch, effect} from "handcraft/reactivity.js";
 import {define} from "handcraft/define.js";
 import {when} from "handcraft/when.js";
 
-let {div: DIV} = h.html;
+let {div} = h.html;
 
 define("icon-set").connected((host) => {
 	let timeout;
@@ -42,7 +42,8 @@ define("icon-set").connected((host) => {
 
 	host(
 		when((previous) => previous || state.color != null).show(() =>
-			DIV.popover(true)
+			div
+				.popover(true)
 				.styles({
 					"--color": () => state.color,
 					"--anchor-name": () => state.anchorName,
