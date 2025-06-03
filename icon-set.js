@@ -3,7 +3,6 @@ import "handcraft/dom/effect.js";
 import "handcraft/dom/observe.js";
 import "handcraft/dom/on.js";
 import "handcraft/dom/styles.js";
-import "handcraft/dom/text.js";
 import {h} from "handcraft/dom.js";
 import {watch, effect} from "handcraft/reactivity.js";
 import {define} from "handcraft/define.js";
@@ -48,9 +47,8 @@ define("icon-set").connected((host) => {
 					"--color": () => state.color,
 					"--anchor-name": () => state.anchorName,
 				})
-				.text("Copied")
 				.on("beforetoggle", popoverBeforeToggle)
-				.effect(popoverEffect)
+				.effect(popoverEffect)("Copied")
 		)
 	);
 
