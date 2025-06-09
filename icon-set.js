@@ -1,6 +1,6 @@
 import "handcraft/dom/classes.js";
 import "handcraft/dom/effect.js";
-import "handcraft/dom/observe.js";
+import "handcraft/dom/find.js";
 import "handcraft/dom/on.js";
 import "handcraft/dom/styles.js";
 import {h} from "handcraft/dom.js";
@@ -14,8 +14,6 @@ define("icon-set").connected((host) => {
 	let timeout;
 	let state = watch({color: null, anchorName: null});
 	let i = -1;
-	let observed = host.observe();
-	let buttons = observed.find(":scope > button");
 	let popoverBeforeToggle = (e) => {
 		if (e.newState === "closed") {
 			state.color = null;
@@ -53,7 +51,7 @@ define("icon-set").connected((host) => {
 	);
 
 	effect(() => {
-		for (let button of buttons) {
+		for (let button of host.find("> button")) {
 			let anchorName = `--button-${++i}`;
 			let color = Array.from({length: 2}, () =>
 				(Math.random() * 0.8 - 0.4).toPrecision(5)
