@@ -38,7 +38,7 @@ define("icon-set").connected((host) => {
 	};
 
 	host(
-		when((previous) => previous || state.color != null).show(() =>
+		when(() => state.color != null).show(() =>
 			div
 				.popover(true)
 				.styles({
