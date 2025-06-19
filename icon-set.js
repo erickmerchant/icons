@@ -1,6 +1,8 @@
 import "handcraft/dom/classes.js";
 import "handcraft/dom/effect.js";
 import "handcraft/dom/find.js";
+import "handcraft/dom/nodes.js";
+import "handcraft/dom/observer.js";
 import "handcraft/dom/on.js";
 import "handcraft/dom/styles.js";
 import {h} from "handcraft/dom.js";
