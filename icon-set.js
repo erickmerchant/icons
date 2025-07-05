@@ -12,7 +12,7 @@ import {when} from "handcraft/when.js";
 
 let {div} = h.html;
 
-define("icon-set").connected((host) => {
+define("icon-set").setup((host) => {
 	let timeout;
 	let state = watch({color: null, anchorName: null});
 	let i = -1;
