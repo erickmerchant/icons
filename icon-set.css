@@ -10,7 +10,7 @@
 		scroll-snap-type: y mandatory;
 
 		> * {
-			border-radius: 0.125rem;
+			border-radius: 0.25rem;
 			fill: currentColor;
 			scroll-snap-align: center;
 		}
