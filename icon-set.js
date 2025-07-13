@@ -5,16 +5,16 @@ import "handcraft/dom/nodes.js";
 import "handcraft/dom/observer.js";
 import "handcraft/dom/on.js";
 import "handcraft/dom/styles.js";
-import {h} from "handcraft/dom.js";
-import {watch, effect} from "handcraft/reactivity.js";
-import {define} from "handcraft/define.js";
-import {when} from "handcraft/when.js";
+import { h } from "handcraft/dom.js";
+import { effect, watch } from "handcraft/reactivity.js";
+import { define } from "handcraft/define.js";
+import { when } from "handcraft/when.js";
 
-let {div} = h.html;
+let { div } = h.html;
 
 define("icon-set").setup((host) => {
 	let timeout;
-	let state = watch({color: null, anchorName: null});
+	let state = watch({ color: null, anchorName: null });
 	let i = -1;
 	let popoverBeforeToggle = (e) => {
 		if (e.newState === "closed") {
@@ -49,14 +49,15 @@ define("icon-set").setup((host) => {
 				})
 				.on("beforetoggle", popoverBeforeToggle)
 				.effect(popoverEffect)("Copied")
-		)
+		),
 	);
 
 	effect(() => {
 		for (let button of host.find("> button")) {
 			let anchorName = `--button-${++i}`;
-			let color = Array.from({length: 2}, () =>
-				(Math.random() * 0.8 - 0.4).toPrecision(5)
+			let color = Array.from(
+				{ length: 2 },
+				() => (Math.random() * 0.8 - 0.4).toPrecision(5),
 			).join(" ");
 			let setColorAndAnchorName = () => {
 				state.color = color;
@@ -69,8 +70,8 @@ define("icon-set").setup((host) => {
 			};
 
 			button
-				.classes({clicked: () => state.anchorName === anchorName})
-				.styles({"--color": color, "anchor-name": anchorName})
+				.classes({ clicked: () => state.anchorName === anchorName })
+				.styles({ "--color": color, "anchor-name": anchorName })
 				.on("click", setColorAndAnchorName)
 				.effect(copyToClipboard);
 		}
