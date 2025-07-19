@@ -1,5 +1,4 @@
 import { h, render } from "handcraft/env/server.js";
-import icons from "./icons.json" with { type: "json" };
 
 const {
 	html,
@@ -14,7 +13,11 @@ const {
 } = h.html;
 const { svg, title: svgTitle, path: svgPath } = h.svg;
 
-export default function ({ urls }) {
+export default async function ({ urls }) {
+	const icons = await Deno.readTextFile("./icons.json").then((text) =>
+		JSON.parse(text)
+	);
+
 	return render(
 		html.lang("en-US")(
 			head(
