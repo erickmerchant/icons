@@ -9,7 +9,6 @@
 	},
 	"imports": {
 		"@flint/framework": "jsr:@flint/framework@^0.1.2",
-		"@std/path": "jsr:@std/path@^1.1.1",
 		"handcraft": "npm:handcraft@^0.18.0"
 	},
 	"fmt": {
