@@ -13,7 +13,7 @@ const {
 } = h.html;
 const { svg, title: svgTitle, path: svgPath } = h.svg;
 
-export default async function ({ urls }) {
+export default async function (_, resolve) {
 	const icons = await Deno.readTextFile("./icons.json").then((text) =>
 		JSON.parse(text)
 	);
@@ -24,9 +24,9 @@ export default async function ({ urls }) {
 				meta.charset("utf-8"),
 				meta.name("viewport").content("width=device-width, initial-scale=1"),
 				title("Icon Gallery"),
-				link.rel("stylesheet").href(urls["/page.css"]),
-				link.rel("stylesheet").href(urls["/icon-set.css"]),
-				script.type("module").src(urls["/icon-set.js"]),
+				link.rel("stylesheet").href(resolve("/page.css")),
+				link.rel("stylesheet").href(resolve("/icon-set.css")),
+				script.type("module").src(resolve("/icon-set.js")),
 			),
 			body.class("page")(
 				iconSet(
