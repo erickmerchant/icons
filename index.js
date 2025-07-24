@@ -8,8 +8,8 @@ const {
 	link,
 	script,
 	body,
-	"icon-set": iconSet,
 	button,
+	"icon-set": iconSet,
 } = h.html;
 const { svg, title: svgTitle, path: svgPath } = h.svg;
 
