@@ -13,7 +13,7 @@ const {
 } = h.html;
 const { svg, title: svgTitle, path: svgPath } = h.svg;
 
-export default async function (_, resolve) {
+export default async function ({ resolve }) {
 	const icons = await Deno.readTextFile("./icons.json").then((text) =>
 		JSON.parse(text)
 	);

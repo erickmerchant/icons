@@ -3,12 +3,11 @@ import js from "@flint/framework/plugins/js";
 import flint from "@flint/framework";
 import index from "./index.js";
 
-const app = flint("public")
+const app = flint("public", "dist")
 	.cache("/")
 	.route("/", index)
-	.route("/*.css", css)
-	.route("/icon-set.js", js)
-	.output("dist");
+	.use("/*.css", css)
+	.use("/icon-set.js", js);
 
 export default app;
 
