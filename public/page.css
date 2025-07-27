@@ -1,3 +1,7 @@
+@layer page, component;
+
+@import "./icon-set.css";
+
 @layer page {
 	* {
 		box-sizing: border-box;
