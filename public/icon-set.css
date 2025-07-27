@@ -8,6 +8,7 @@
 		align-content: safe center;
 		margin-inline: auto;
 		scroll-snap-type: y mandatory;
+		padding-inline: 2rem;
 
 		> * {
 			border-radius: 0.25rem;
@@ -24,9 +25,7 @@
 				inline-size: 100cqi;
 			}
 		}
-	}
 
-	:where(icon-set) {
 		button {
 			appearance: none;
 			background: var(--background);
