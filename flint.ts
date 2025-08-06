@@ -4,13 +4,13 @@ import flint from "@flint/framework";
 import index from "./index.js";
 
 const app = flint("public", "dist")
-	.cache("/")
-	.route("/", index)
-	.use("/page.css", css)
-	.use("/icon-set.js", js);
+  .cache("/")
+  .route("/", index)
+  .use("/page.css", css)
+  .use("/icon-set.js", js);
 
 export default app;
 
 if (import.meta.main) {
-	app.run();
+  app.run();
 }
