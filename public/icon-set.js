@@ -10,19 +10,19 @@ import { effect, watch } from "handcraft/reactivity.js";
 import { define } from "handcraft/define.js";
 import { when } from "handcraft/when.js";
 
-let { div } = h.html;
+const { div } = h.html;
 
 define("icon-set").setup((host) => {
 	let timeout;
-	let state = watch({ color: null, anchorName: null });
+	const state = watch({ color: null, anchorName: null });
 	let i = -1;
-	let popoverBeforeToggle = (e) => {
+	const popoverBeforeToggle = (e) => {
 		if (e.newState === "closed") {
 			state.color = null;
 			state.anchorName = null;
 		}
 	};
-	let popoverEffect = (el) => {
+	const popoverEffect = (el) => {
 		if (state.color != null) {
 			if (timeout) {
 				clearTimeout(timeout);
@@ -53,17 +53,17 @@ define("icon-set").setup((host) => {
 	);
 
 	effect(() => {
-		for (let button of host.find("> button")) {
-			let anchorName = `--button-${++i}`;
-			let color = Array.from(
+		for (const button of host.find("> button")) {
+			const anchorName = `--button-${++i}`;
+			const color = Array.from(
 				{ length: 2 },
 				() => (Math.random() * 0.8 - 0.4).toPrecision(5),
 			).join(" ");
-			let setColorAndAnchorName = () => {
+			const setColorAndAnchorName = () => {
 				state.color = color;
 				state.anchorName = anchorName;
 			};
-			let copyToClipboard = (el) => {
+			const copyToClipboard = (el) => {
 				if (state.color === color) {
 					navigator.clipboard.writeText(el.innerHTML.trim()).finally((_) => {});
 				}
