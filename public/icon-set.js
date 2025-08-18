@@ -1,14 +1,4 @@
-import "handcraft/dom/classes.js";
-import "handcraft/dom/effect.js";
-import "handcraft/dom/find.js";
-import "handcraft/dom/nodes.js";
-import "handcraft/dom/observer.js";
-import "handcraft/dom/on.js";
-import "handcraft/dom/styles.js";
-import { h } from "handcraft/dom.js";
-import { effect, watch } from "handcraft/reactivity.js";
-import { define } from "handcraft/define.js";
-import { when } from "handcraft/when.js";
+import { define, effect, h, watch, when } from "@handcraft/lib";
 
 const { div } = h.html;
 
@@ -43,7 +33,7 @@ define("icon-set").setup((host) => {
     when(() => state.color != null).show(() =>
       div
         .popover(true)
-        .styles({
+        .style({
           "--color": () => state.color,
           "--anchor-name": () => state.anchorName,
         })
@@ -70,8 +60,8 @@ define("icon-set").setup((host) => {
       };
 
       button
-        .classes({ clicked: () => state.anchorName === anchorName })
-        .styles({ "--color": color, "anchor-name": anchorName })
+        .class({ clicked: () => state.anchorName === anchorName })
+        .style({ "--color": color, "anchor-name": anchorName })
         .on("click", setColorAndAnchorName)
         .effect(copyToClipboard);
     }

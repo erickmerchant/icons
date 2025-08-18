@@ -14,16 +14,17 @@
       border-radius: 0.25rem;
       fill: currentColor;
       scroll-snap-align: center;
-    }
 
-    @container (inline-size < 50rem) {
-      max-inline-size: 100cqi;
-      gap: 0;
-
-      > * {
+      @container (inline-size < 35rem) {
         block-size: auto;
         inline-size: 100cqi;
       }
+    }
+
+    @container (inline-size < 35rem) {
+      padding-inline: 0;
+      max-inline-size: 100cqi;
+      gap: 0;
     }
 
     button {
@@ -44,7 +45,7 @@
       block-size: auto;
       padding: 5cqi;
 
-      @container (inline-size >= 50rem) {
+      @container (inline-size >= 35rem) {
         padding: 1rem;
         inline-size: auto;
         block-size: 15rem;
