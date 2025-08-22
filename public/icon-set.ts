@@ -3,16 +3,19 @@ import { define, effect, h, watch, when } from "@handcraft/lib";
 const { div } = h.html;
 
 define("icon-set").setup((host) => {
-  let timeout;
-  const state = watch({ color: null, anchorName: null });
+  let timeout: number;
+  const state: {
+    color: string | null;
+    anchorName: string | null;
+  } = watch({ color: null, anchorName: null });
   let i = -1;
-  const popoverBeforeToggle = (e) => {
+  const popoverBeforeToggle = (e: ToggleEvent) => {
     if (e.newState === "closed") {
       state.color = null;
       state.anchorName = null;
     }
   };
-  const popoverEffect = (el) => {
+  const popoverEffect = (el: HTMLElement) => {
     if (state.color != null) {
       if (timeout) {
         clearTimeout(timeout);
@@ -37,7 +40,7 @@ define("icon-set").setup((host) => {
           "--color": () => state.color,
           "--anchor-name": () => state.anchorName,
         })
-        .on("beforetoggle", popoverBeforeToggle)
+        .on("beforetoggle", popoverBeforeToggle as EventListener)
         .effect(popoverEffect)("Copied")
     ),
   );
@@ -53,9 +56,9 @@ define("icon-set").setup((host) => {
         state.color = color;
         state.anchorName = anchorName;
       };
-      const copyToClipboard = (el) => {
+      const copyToClipboard = (el: HTMLElement) => {
         if (state.color === color) {
-          navigator.clipboard.writeText(el.innerHTML.trim()).finally((_) => {});
+          navigator.clipboard.writeText(el.innerHTML.trim()).finally(() => {});
         }
       };
 
