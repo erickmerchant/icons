@@ -46,7 +46,7 @@ define("icon-set").setup((host) => {
   );
 
   effect(() => {
-    for (const button of host.find("> button")) {
+    for (const button of host.query("> button")) {
       const anchorName = `--button-${++i}`;
       const color = Array.from(
         { length: 2 },
