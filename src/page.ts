@@ -1,6 +1,6 @@
 import type { FlintRouteContext } from "@flint/framework";
 import { h, render } from "@handcraft/lib";
-import icons  from "./icons.json" with { type: "json" }
+import icons from "./icons.json" with { type: "json" };
 
 const {
   html,
