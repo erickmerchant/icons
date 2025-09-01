@@ -1,5 +1,6 @@
 import type { FlintRouteContext } from "@flint/framework";
 import { h, render } from "@handcraft/lib";
+import icons  from "./icons.json" with { type: "json" }
 
 const {
   html,
@@ -14,15 +15,9 @@ const {
 } = h.html;
 const { svg, title: svgTitle, path: svgPath } = h.svg;
 
-export default async function (
+export default function (
   { resolve }: FlintRouteContext,
 ) {
-  const icons: Array<{
-    title: string;
-    path: string;
-    dimensions: [number, number];
-  }> = await Deno.readTextFile("./icons.json").then((text) => JSON.parse(text));
-
   return render(
     html.lang("en-US")(
       head(

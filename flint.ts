@@ -1,9 +1,9 @@
 import css from "@flint/framework/handlers/css";
 import js from "@flint/framework/handlers/js";
 import flint from "@flint/framework";
-import index from "./index.ts";
+import index from "./src/page.ts";
 
-const app = flint("public", "dist")
+const app = flint("src", "dist")
   .route("/", index)
   .file("/icon-set.js", js)
   .file("/page.css", css);
