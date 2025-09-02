@@ -24,7 +24,7 @@ export default function (
         meta.charset("utf-8"),
         meta.name("viewport").content("width=device-width, initial-scale=1"),
         title("Icon Gallery"),
-        link.rel("stylesheet").href(resolve("/page.css")),
+        link.rel("stylesheet").href(resolve("/index.css")),
         script.type("module").src(resolve("/icon-set.js")),
       ),
       body.class("page")(
