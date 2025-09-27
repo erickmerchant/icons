@@ -1,87 +1,87 @@
 @layer component {
-	icon-set {
-		inline-size: auto;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
-		justify-content: safe center;
-		align-content: safe center;
-		margin-inline: auto;
-		scroll-snap-type: y mandatory;
-		padding-inline: 2rem;
+  icon-set {
+    inline-size: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: safe center;
+    align-content: safe center;
+    margin-inline: auto;
+    scroll-snap-type: y mandatory;
+    padding-inline: 2rem;
 
-		> * {
-			border-radius: 0.25rem;
-			fill: currentColor;
-			scroll-snap-align: center;
+    > * {
+      border-radius: 0.25rem;
+      fill: currentColor;
+      scroll-snap-align: center;
 
-			@container (inline-size < 35rem) {
-				block-size: auto;
-				inline-size: 100cqi;
-			}
-		}
+      @container (inline-size < 35rem) {
+        block-size: auto;
+        inline-size: 100cqi;
+      }
+    }
 
-		@container (inline-size < 35rem) {
-			padding-inline: 0;
-			max-inline-size: 100cqi;
-			gap: 0;
-		}
+    @container (inline-size < 35rem) {
+      padding-inline: 0;
+      max-inline-size: 100cqi;
+      gap: 0;
+    }
 
-		button {
-			appearance: none;
-			background: var(--background);
-			color: var(--foreground);
-			border: none;
-			display: grid;
-			--light: oklab(95% var(--color));
-			--dark: oklab(5% var(--color));
-			--background: light-dark(var(--light), var(--dark));
-			--foreground: light-dark(var(--dark), var(--light));
-		}
+    button {
+      appearance: none;
+      background: var(--background);
+      color: var(--foreground);
+      border: none;
+      display: grid;
+      --light: oklab(95% var(--color));
+      --dark: oklab(5% var(--color));
+      --background: light-dark(var(--light), var(--dark));
+      --foreground: light-dark(var(--dark), var(--light));
+    }
 
-		svg {
-			display: grid;
-			inline-size: 100cqi;
-			block-size: auto;
-			padding: 5cqi;
+    svg {
+      display: grid;
+      inline-size: 100cqi;
+      block-size: auto;
+      padding: 5cqi;
 
-			@container (inline-size >= 35rem) {
-				padding: 1rem;
-				inline-size: auto;
-				block-size: 15rem;
-			}
-		}
+      @container (inline-size >= 35rem) {
+        padding: 1rem;
+        inline-size: auto;
+        block-size: 15rem;
+      }
+    }
 
-		:popover-open {
-			background: var(--background);
-			color: var(--foreground);
-			border: 0.25rem solid currentColor;
-			border-radius: 0.25rlh;
-			padding: 1rem;
-			gap: 0.5rem;
-			font-weight: 500;
-			position: fixed;
-			place-self: center;
-			inline-size: fit-content;
-			font-size: 1.25rem;
-			--light: oklab(95% var(--color));
-			--dark: oklab(5% var(--color));
-			--background: light-dark(var(--light), var(--dark));
-			--foreground: light-dark(var(--dark), var(--light));
+    :popover-open {
+      background: var(--background);
+      color: var(--foreground);
+      border: 0.25rem solid currentColor;
+      border-radius: 0.25rlh;
+      padding: 1rem;
+      gap: 0.5rem;
+      font-weight: 500;
+      position: fixed;
+      place-self: center;
+      inline-size: fit-content;
+      font-size: 1.25rem;
+      --light: oklab(95% var(--color));
+      --dark: oklab(5% var(--color));
+      --background: light-dark(var(--light), var(--dark));
+      --foreground: light-dark(var(--dark), var(--light));
 
-			@supports (position-anchor: --button-0) {
-				position-anchor: var(--anchor-name);
-				position-area: center center;
-				place-self: unset;
-			}
+      @supports (position-anchor: --button-0) {
+        position-anchor: var(--anchor-name);
+        position-area: center center;
+        place-self: unset;
+      }
 
-			> * {
-				flex-shrink: 0;
-			}
-		}
+      > * {
+        flex-shrink: 0;
+      }
+    }
 
-		.clicked {
-			filter: blur(0.25rem);
-		}
-	}
+    .clicked {
+      filter: blur(0.25rem);
+    }
+  }
 }
