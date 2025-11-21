@@ -1,4 +1,4 @@
-import { define, effect, h, watch, when } from "@handcraft/lib";
+import { define, effect, h, observe, watch, when } from "@handcraft/lib";
 
 const { div } = h.html;
 
@@ -46,7 +46,7 @@ define("icon-set").setup((host) => {
   );
 
   effect(() => {
-    for (const button of host.query("> button")) {
+    for (const button of observe(host)("> button")) {
       const anchorName = `--button-${++i}`;
       const color = Array.from(
         { length: 2 },
@@ -57,7 +57,7 @@ define("icon-set").setup((host) => {
         state.anchorName = anchorName;
       };
       const copyToClipboard = (el: HTMLElement) => {
-        if (state.color === color) {
+        if (state.anchorName === anchorName) {
           navigator.clipboard.writeText(el.innerHTML.trim()).finally(() => {});
         }
       };
