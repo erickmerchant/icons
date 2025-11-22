@@ -1,4 +1,4 @@
-import { define, effect, h, observe, watch, when } from "@handcraft/lib";
+import { define, effect, h, read, watch, when } from "@handcraft/lib";
 
 const { div } = h.html;
 
@@ -46,7 +46,7 @@ define("icon-set").setup((host) => {
   );
 
   effect(() => {
-    for (const button of observe(host)("> button")) {
+    for (const button of read(host)("> button")) {
       const anchorName = `--button-${++i}`;
       const color = Array.from(
         { length: 2 },
