@@ -31,6 +31,7 @@ define("icon-set").setup((host) => {
       el.hidePopover();
     }
   };
+  const observed = observe(host);
 
   host(
     when(() => state.color != null).show(() =>
@@ -46,7 +47,7 @@ define("icon-set").setup((host) => {
   );
 
   effect(() => {
-    for (const button of observe(host)("> button")) {
+    for (const button of observed("> button")) {
       const anchorName = `--button-${++i}`;
       const color = Array.from(
         { length: 2 },
