@@ -1,4 +1,4 @@
-import { define, effect, h, observe, watch, when } from "@handcraft/lib";
+import { $, define, effect, h, observe, watch, when } from "@handcraft/lib";
 
 const { div } = h.html;
 
@@ -33,7 +33,7 @@ define("icon-set").setup((host) => {
   };
   const observed = observe(host);
 
-  host(
+  $(host)(
     when(() => state.color != null).show(() =>
       div
         .popover(true)
