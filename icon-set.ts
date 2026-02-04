@@ -45,8 +45,10 @@ define("icon-set", {
       ),
     );
 
+    const buttons = host.querySelectorAll(":scope > button");
+
     for (
-      let i = 0, buttons = [...host.querySelectorAll(":scope > button")];
+      let i = 0;
       i < buttons.length;
       i++
     ) {
