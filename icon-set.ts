@@ -1,54 +1,57 @@
-import { $, define, effect, h, observe, watch, when } from "@handcraft/lib";
+import { $, define, h, watch, when } from "@handcraft/lib";
 
 const { div } = h.html;
 
-define("icon-set").setup((host) => {
-  let timeout: number;
-  const state: {
-    color: string | null;
-    anchorName: string | null;
-  } = watch({ color: null, anchorName: null });
-  let i = -1;
-  const popoverBeforeToggle = (e: ToggleEvent) => {
-    if (e.newState === "closed") {
-      state.color = null;
-      state.anchorName = null;
-    }
-  };
-  const popoverEffect = (el: HTMLElement) => {
-    if (state.color != null) {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-
-      el.showPopover();
-
-      timeout = setTimeout(() => {
+define("icon-set", {
+  connected(host) {
+    let timeout: number;
+    const state: {
+      color: string | null;
+      anchorName: string | null;
+    } = watch({ color: null, anchorName: null });
+    const popoverBeforeToggle = (e: ToggleEvent) => {
+      if (e.newState === "closed") {
         state.color = null;
         state.anchorName = null;
-      }, 2_000);
-    } else {
-      el.hidePopover();
-    }
-  };
-  const observed = observe(host);
+      }
+    };
+    const popoverEffect = (el: HTMLElement) => {
+      if (state.color != null) {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
 
-  $(host)(
-    when(() => state.color != null).show(() =>
-      div
-        .popover(true)
-        .style({
-          "--color": () => state.color,
-          "--anchor-name": () => state.anchorName,
-        })
-        .on("beforetoggle", popoverBeforeToggle as EventListener)
-        .effect(popoverEffect)("Copied")
-    ),
-  );
+        el.showPopover();
 
-  effect(() => {
-    for (const button of observed("> button")) {
-      const anchorName = `--button-${++i}`;
+        timeout = setTimeout(() => {
+          state.color = null;
+          state.anchorName = null;
+        }, 2_000);
+      } else {
+        el.hidePopover();
+      }
+    };
+
+    $(host)(
+      when(() => state.color != null).show(() =>
+        div
+          .popover(true)
+          .style({
+            "--color": () => state.color,
+            "--anchor-name": () => state.anchorName,
+          })
+          .on("beforetoggle", popoverBeforeToggle as EventListener)
+          .effect(popoverEffect)("Copied")
+      ),
+    );
+
+    for (
+      let i = 0, buttons = [...host.querySelectorAll(":scope > button")];
+      i < buttons.length;
+      i++
+    ) {
+      const button = buttons[i];
+      const anchorName = `--button-${i}`;
       const color = Array.from(
         { length: 2 },
         () => (Math.random() * 0.8 - 0.4).toPrecision(5),
@@ -59,15 +62,17 @@ define("icon-set").setup((host) => {
       };
       const copyToClipboard = (el: HTMLElement) => {
         if (state.anchorName === anchorName) {
-          navigator.clipboard.writeText(el.innerHTML.trim()).finally(() => {});
+          navigator.clipboard.writeText(el.innerHTML.trim()).finally(
+            () => {},
+          );
         }
       };
 
-      button
+      $(button)
         .class({ clicked: () => state.anchorName === anchorName })
         .style({ "--color": color, "anchor-name": anchorName })
         .on("click", setColorAndAnchorName)
         .effect(copyToClipboard);
     }
-  });
+  },
 });
