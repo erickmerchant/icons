@@ -9,13 +9,28 @@ define("icon-set", {
       color: string | null;
       anchorName: string | null;
     } = watch({ color: null, anchorName: null });
-    const popoverBeforeToggle = (e: ToggleEvent) => {
+
+    $(host)(
+      when(() => state.color != null).show(() =>
+        div
+          .popover(true)
+          .style({
+            "--color": () => state.color,
+            "--anchor-name": () => state.anchorName,
+          })
+          .on("beforetoggle", popoverBeforeToggle as EventListener)
+          .effect(popoverEffect)("Copied")
+      ),
+    );
+
+    function popoverBeforeToggle(e: ToggleEvent) {
       if (e.newState === "closed") {
         state.color = null;
         state.anchorName = null;
       }
-    };
-    const popoverEffect = (el: HTMLElement) => {
+    }
+
+    function popoverEffect(el: HTMLElement) {
       if (state.color != null) {
         if (timeout) {
           clearTimeout(timeout);
@@ -30,20 +45,7 @@ define("icon-set", {
       } else {
         el.hidePopover();
       }
-    };
-
-    $(host)(
-      when(() => state.color != null).show(() =>
-        div
-          .popover(true)
-          .style({
-            "--color": () => state.color,
-            "--anchor-name": () => state.anchorName,
-          })
-          .on("beforetoggle", popoverBeforeToggle as EventListener)
-          .effect(popoverEffect)("Copied")
-      ),
-    );
+    }
 
     const buttons = host.querySelectorAll(":scope > button");
 
