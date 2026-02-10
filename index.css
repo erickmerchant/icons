@@ -1,6 +1,6 @@
 @layer page, component;
 
-@import "./icon-set.css";
+@import "./icon-set.css" layer(component);
 
 @layer page {
   * {
