@@ -36,7 +36,7 @@ define("icon-set", {
           clearTimeout(timeout);
         }
 
-        el.showPopover();
+        el.isConnected && el.showPopover();
 
         timeout = setTimeout(() => {
           state.color = null;

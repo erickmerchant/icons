@@ -16,7 +16,7 @@ const {
 const { svg, title: svgTitle, path: svgPath } = h.svg;
 
 export default function () {
-  return render(
+  return render(() =>
     html.lang("en-US")(
       head(
         meta.charset("utf-8"),
@@ -37,6 +37,6 @@ export default function () {
           ),
         ),
       ),
-    ),
+    )
   );
 }
