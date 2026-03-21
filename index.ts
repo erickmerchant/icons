@@ -1,5 +1,4 @@
-import { h } from "@handcraft/lib";
-import { render } from "@handcraft/lib/render";
+import { h } from "@handcraft/lib/templating";
 import icons from "./icons.json" with { type: "json" };
 
 const {
@@ -16,27 +15,25 @@ const {
 const { svg, title: svgTitle, path: svgPath } = h.svg;
 
 export default function () {
-  return render(() =>
-    html.lang("en-US")(
-      head(
-        meta.charset("utf-8"),
-        meta.name("viewport").content("width=device-width, initial-scale=1"),
-        title("Icon Gallery"),
-        link.rel("stylesheet").href("/index.css?inline"),
-        script.type("module").src("/icon-set.js?inline"),
-      ),
-      body.class("page")(
-        iconSet(
-          icons.map(({ dimensions, title, path }) =>
-            button(
-              svg.viewBox([0, 0].concat(dimensions).join(" "))(
-                svgTitle(title),
-                svgPath.d(path),
-              ),
-            )
-          ),
+  return html.lang("en-US")(
+    head(
+      meta.charset("utf-8"),
+      meta.name("viewport").content("width=device-width, initial-scale=1"),
+      title("Icon Gallery"),
+      link.rel("stylesheet").href("/index.css?inline"),
+      script.type("module").src("/icon-set.js?inline"),
+    ),
+    body.class("page")(
+      iconSet(
+        icons.map(({ dimensions, title, path }) =>
+          button(
+            svg.viewBox([0, 0].concat(dimensions).join(" "))(
+              svgTitle(title),
+              svgPath.d(path),
+            ),
+          )
         ),
       ),
-    )
+    ),
   );
 }
