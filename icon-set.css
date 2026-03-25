@@ -9,6 +9,12 @@ icon-set {
   scroll-snap-type: y mandatory;
   padding-inline: 2rem;
 
+  @container (inline-size < 35rem) {
+    padding-inline: 0;
+    max-inline-size: 100cqi;
+    gap: 0;
+  }
+
   > * {
     border-radius: 0.25rem;
     fill: currentColor;
@@ -18,12 +24,6 @@ icon-set {
       block-size: auto;
       inline-size: 100cqi;
     }
-  }
-
-  @container (inline-size < 35rem) {
-    padding-inline: 0;
-    max-inline-size: 100cqi;
-    gap: 0;
   }
 
   button {
