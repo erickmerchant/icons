@@ -20,8 +20,8 @@ export default function () {
       meta.charset("utf-8"),
       meta.name("viewport").content("width=device-width, initial-scale=1"),
       title("Icon Gallery"),
-      link.rel("stylesheet").href("/index.css?inline"),
-      script.type("module").src("/icon-set.js?inline"),
+      link.rel("stylesheet").href("/index.css"),
+      script.type("module").src("/icon-set.js"),
     ),
     body.class("page")(
       iconSet(
