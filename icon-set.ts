@@ -6,7 +6,7 @@ define("icon-set", {
   connected(host) {
     let timeout: number;
     const state: {
-      color: string | null;
+      color: [number, number] | null;
       anchorName: string | null;
     } = watch({ color: null, anchorName: null });
 
@@ -15,7 +15,7 @@ define("icon-set", {
         div
           .popover(true)
           .style({
-            "--color": () => state.color,
+            "--color": () => state.color ? state.color.join(" ") : "",
             "--anchor-name": () => state.anchorName,
           })
           .on("beforetoggle", popoverBeforeToggle as EventListener)
@@ -48,6 +48,9 @@ define("icon-set", {
     }
 
     const buttons = host.querySelectorAll(":scope > button");
+    const chArr = new Uint32Array(buttons.length * 2);
+
+    globalThis.crypto.getRandomValues(chArr);
 
     for (
       let i = 0;
@@ -56,12 +59,10 @@ define("icon-set", {
     ) {
       const button = buttons[i];
       const anchorName = `--button-${i}`;
-      const color = Array.from(
-        { length: 2 },
-        () => (Math.random() * 0.8 - 0.4).toPrecision(5),
-      ).join(" ");
+      const c = (chArr[i * 2] / 0b11111111111111111111111111111111) * 0.4;
+      const h = (chArr[i * 2 + 1] / 0b11111111111111111111111111111111) * 360;
       const setColorAndAnchorName = () => {
-        state.color = color;
+        state.color = [c, h];
         state.anchorName = anchorName;
       };
       const copyToClipboard = (el: HTMLElement) => {
@@ -74,7 +75,7 @@ define("icon-set", {
 
       $(button)
         .class({ clicked: () => state.anchorName === anchorName })
-        .style({ "--color": color, "anchor-name": anchorName })
+        .style({ "--color": [c, h].join(" "), "anchor-name": anchorName })
         .on("click", setColorAndAnchorName)
         .effect(copyToClipboard);
     }

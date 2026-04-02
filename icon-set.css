@@ -32,8 +32,8 @@ icon-set {
     color: var(--foreground);
     border: none;
     display: grid;
-    --light: oklab(95% var(--color));
-    --dark: oklab(5% var(--color));
+    --light: oklch(90% var(--color));
+    --dark: oklch(10% var(--color));
     --background: light-dark(var(--light), var(--dark));
     --foreground: light-dark(var(--dark), var(--light));
   }
@@ -65,8 +65,8 @@ icon-set {
     font-size: 1.25rem;
     box-shadow: 0.25rem 0.25rem 0.25rem 0
       color-mix(in lab, var(--background), var(--foreground));
-    --light: oklab(95% var(--color));
-    --dark: oklab(5% var(--color));
+    --light: oklch(90% var(--color));
+    --dark: oklch(10% var(--color));
     --background: light-dark(var(--light), var(--dark));
     --foreground: light-dark(var(--dark), var(--light));
 
