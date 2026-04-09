@@ -9,6 +9,7 @@ const {
   link,
   script,
   body,
+  div,
   button,
   "icon-set": iconSet,
 } = h.html;
@@ -24,14 +25,14 @@ export default function () {
       script.type("module").src("/icon-set.js"),
     ),
     body.class("page")(
-      iconSet(
+      div.class("icons")(
         icons.map(({ dimensions, title, path }) =>
-          button(
+          iconSet(button(
             svg.viewBox([0, 0].concat(dimensions).join(" "))(
               svgTitle(title),
               svgPath.d(path),
             ),
-          )
+          ))
         ),
       ),
     ),

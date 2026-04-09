@@ -1,19 +1,5 @@
 icon-set {
-  inline-size: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: safe center;
-  align-content: safe center;
-  margin-inline: auto;
-  scroll-snap-type: y mandatory;
-  padding-inline: 2rem;
-
-  @container (inline-size < 35rem) {
-    padding-inline: 0;
-    max-inline-size: 100cqi;
-    gap: 0;
-  }
+  anchor-scope: --button;
 
   > * {
     border-radius: 0.25rem;
@@ -27,6 +13,7 @@ icon-set {
   }
 
   button {
+    anchor-name: --button;
     appearance: none;
     background: var(--background);
     color: var(--foreground);
@@ -70,8 +57,8 @@ icon-set {
     --background: light-dark(var(--light), var(--dark));
     --foreground: light-dark(var(--dark), var(--light));
 
-    @supports (position-anchor: --button-0) {
-      position-anchor: var(--anchor-name);
+    @supports (position-anchor: --button) {
+      position-anchor: --button;
       position-area: center center;
       place-self: unset;
     }

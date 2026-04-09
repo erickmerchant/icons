@@ -25,4 +25,22 @@
     place-content: safe center;
     container-type: inline-size;
   }
+
+  .icons {
+    inline-size: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: safe center;
+    align-content: safe center;
+    margin-inline: auto;
+    scroll-snap-type: y mandatory;
+    padding-inline: 2rem;
+
+    @container (inline-size < 35rem) {
+      padding-inline: 0;
+      max-inline-size: 100cqi;
+      gap: 0;
+    }
+  }
 }
