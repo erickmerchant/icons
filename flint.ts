@@ -5,7 +5,7 @@ import index from "./index.ts";
 
 const app = flint()
   .route("/", index)
-  .file("/icon-set.js", js)
+  .file("/icon-tile.js", js)
   .file("/index.css", css);
 
 export default app;

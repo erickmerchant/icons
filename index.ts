@@ -11,7 +11,7 @@ const {
   body,
   div,
   button,
-  "icon-set": iconSet,
+  "icon-tile": iconTile,
 } = h.html;
 const { svg, title: svgTitle, path: svgPath } = h.svg;
 
@@ -22,12 +22,12 @@ export default function () {
       meta.name("viewport").content("width=device-width, initial-scale=1"),
       title("Icon Gallery"),
       link.rel("stylesheet").href("/index.css"),
-      script.type("module").src("/icon-set.js"),
+      script.type("module").src("/icon-tile.js"),
     ),
     body.class("page")(
       div.class("icons")(
         icons.map(({ dimensions, title, path }) =>
-          iconSet(button(
+          iconTile(button(
             svg.viewBox([0, 0].concat(dimensions).join(" "))(
               svgTitle(title),
               svgPath.d(path),
