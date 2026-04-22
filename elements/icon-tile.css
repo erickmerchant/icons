@@ -1,14 +1,16 @@
-icon-tile {
-  anchor-scope: --button;
+@scope (icon-tile) {
+  :scope {
+    anchor-scope: --button;
 
-  > * {
-    border-radius: 0.25rem;
-    fill: currentColor;
-    scroll-snap-align: center;
+    > * {
+      border-radius: 0.25rem;
+      fill: currentColor;
+      scroll-snap-align: center;
 
-    @container (inline-size < 35rem) {
-      block-size: auto;
-      inline-size: 100cqi;
+      @container (inline-size < 35rem) {
+        block-size: auto;
+        inline-size: 100cqi;
+      }
     }
   }
 

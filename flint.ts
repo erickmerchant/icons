@@ -1,12 +1,12 @@
 import css from "@flint/framework/handlers/css";
 import js from "@flint/framework/handlers/js";
 import flint from "@flint/framework";
-import index from "./index.ts";
+import index from "./pages/index.ts";
 
 const app = flint()
   .route("/", index)
-  .file("/icon-tile.js", js)
-  .file("/index.css", css);
+  .file("/elements/icon-tile.js", js)
+  .file("/pages/index.css", css);
 
 export default app;
 

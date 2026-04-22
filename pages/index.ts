@@ -1,5 +1,5 @@
 import { h } from "@handcraft/lib/templating";
-import icons from "./icons.json" with { type: "json" };
+import icons from "../data/icons.json" with { type: "json" };
 
 const {
   html,
@@ -21,8 +21,8 @@ export default function () {
       meta.charset("utf-8"),
       meta.name("viewport").content("width=device-width, initial-scale=1"),
       title("Icon Gallery"),
-      link.rel("stylesheet").href("/index.css"),
-      script.type("module").src("/icon-tile.js"),
+      link.rel("stylesheet").href("/pages/index.css"),
+      script.type("module").src("/elements/icon-tile.js"),
     ),
     body.class("page")(
       div.class("icons")(
