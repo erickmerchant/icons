@@ -14,19 +14,6 @@
     }
   }
 
-  button {
-    anchor-name: --button;
-    appearance: none;
-    background: var(--background);
-    color: var(--foreground);
-    border: none;
-    display: grid;
-    --light: oklch(90% var(--color));
-    --dark: oklch(10% var(--color));
-    --background: light-dark(var(--light), var(--dark));
-    --foreground: light-dark(var(--dark), var(--light));
-  }
-
   svg {
     display: grid;
     inline-size: 100cqi;
@@ -40,7 +27,20 @@
     }
   }
 
-  :popover-open {
+  &::part(button) {
+    anchor-name: --button;
+    appearance: none;
+    background: var(--background);
+    color: var(--foreground);
+    border: none;
+    display: grid;
+    --light: oklch(90% var(--color));
+    --dark: oklch(10% var(--color));
+    --background: light-dark(var(--light), var(--dark));
+    --foreground: light-dark(var(--dark), var(--light));
+  }
+
+  &::part(popover):popover-open {
     background: var(--background);
     color: var(--foreground);
     border: 0.25rem solid currentColor;

@@ -1,76 +1,74 @@
-import { $, define, h, watch, when } from "@handcraft/lib";
+import { h, HandcraftElement, when } from "@handcraft/lib";
+import type { HandcraftNode } from "@handcraft/lib";
 
-const { div } = h.html;
+const { div, slot, button } = h.html;
 
-define("icon-tile", {
-  connected(host) {
-    let timeout: number;
-    const state: {
-      color: [number, number] | null;
-      clicked: boolean;
-    } = watch({ color: null, clicked: false });
+export default class IconTile extends HandcraftElement {
+  color: [number, number] = [getRandomNumber() * 0.4, getRandomNumber() * 360];
+  clicked: boolean = false;
+  timeout?: number;
 
-    const [rand1, rand2] = getRandomValues(2);
-    const c = rand1 * 0.4;
-    const h = rand2 * 360;
-    const setColorAndClicked = () => {
-      state.color = [c, h];
-      state.clicked = true;
-    };
-    const copyToClipboard = (el: HTMLElement) => {
-      if (state.clicked) {
-        navigator.clipboard.writeText(el.innerHTML.trim()).finally(
-          () => {},
-        );
-      }
-    };
+  setClicked = () => {
+    this.clicked = true;
+  };
 
-    $(host)
-      .class({ clicked: () => state.clicked })
-      .style({ "--color": [c, h].join(" ") })
-      .on("click", setColorAndClicked)
-      .effect(copyToClipboard)(
-        when(() => state.color != null).show(() =>
-          div
-            .popover(true)
-            .style({
-              "--color": () => state.color ? state.color.join(" ") : "",
-            })
-            .on("beforetoggle", popoverBeforeToggle as EventListener)
-            .effect(popoverEffect)("Copied")
-        ),
+  copyToClipboard = (el: HTMLElement) => {
+    if (this.clicked) {
+      navigator.clipboard.writeText(el.innerHTML.trim()).finally(
+        () => {},
       );
+    }
+  };
 
-    function popoverBeforeToggle(e: ToggleEvent) {
-      if (e.newState === "closed") {
-        state.color = null;
-        state.clicked = false;
+  popoverBeforeToggle = (e: ToggleEvent) => {
+    if (e.newState === "closed") {
+      this.clicked = false;
+    }
+  };
+
+  popoverEffect = (el: HTMLElement) => {
+    if (this.clicked) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
       }
+
+      el.isConnected && el.showPopover();
+
+      this.timeout = setTimeout(() => {
+        this.clicked = false;
+      }, 2_000) as unknown as number;
     }
+  };
 
-    function popoverEffect(el: HTMLElement) {
-      if (state.color != null) {
-        if (timeout) {
-          clearTimeout(timeout);
-        }
+  override view(host: HandcraftNode) {
+    host
+      .class({ clicked: () => this.clicked })
+      .style({ "--color": this.color.join(" ") })
+      .effect(this.copyToClipboard)
+      .shadow(
+        { mode: "open" },
+        [
+          button.part("button").on("click", this.setClicked)(slot()),
+          when(() => this.clicked).show(() =>
+            div
+              .part("popover")
+              .popover(true)
+              .on("beforetoggle", this.popoverBeforeToggle as EventListener)
+              .effect(this.popoverEffect)("Copied")
+          ),
+        ],
+      );
+  }
+}
 
-        el.isConnected && el.showPopover();
+IconTile.define("icon-tile");
 
-        timeout = setTimeout(() => {
-          state.color = null;
-          state.clicked = false;
-        }, 2_000);
-      } else {
-        el.hidePopover();
-      }
-    }
+function getRandomNumber(): number {
+  const arr = new Uint32Array(1);
 
-    function getRandomValues(len: number) {
-      const arr = new Uint32Array(len);
+  globalThis.crypto.getRandomValues(arr);
 
-      globalThis.crypto.getRandomValues(arr);
+  const [num] = [...arr].map((v) => v / 0b11111111111111111111111111111111);
 
-      return [...arr].map((v) => v / 0b11111111111111111111111111111111);
-    }
-  },
-});
+  return num;
+}
