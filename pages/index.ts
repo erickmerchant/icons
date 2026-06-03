@@ -1,7 +1,7 @@
 import { h } from "@handcraft/lib";
 import { stringify } from "@handcraft/lib/stringify";
 import icons from "../data/icons.json" with { type: "json" };
-import "../elements/icon-tile.ts";
+import iconTile from "../elements/icon-tile.ts";
 
 const {
   html,
@@ -12,7 +12,6 @@ const {
   script,
   body,
   div,
-  "icon-tile": iconTile,
 } = h.html;
 const { svg, title: svgTitle, path: svgPath } = h.svg;
 

@@ -1,6 +1,6 @@
-@layer page, component;
+@layer page, element;
 
-@import "../elements/icon-tile.css" layer(component);
+@import "../elements/icon-tile.css" layer(element);
 
 @layer page {
   * {

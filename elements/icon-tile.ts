@@ -3,7 +3,7 @@ import type { HandcraftNode } from "@handcraft/lib";
 
 const { div, slot, button } = h.html;
 
-export default class IconTile extends HandcraftElement {
+export class IconTile extends HandcraftElement {
   color: [number, number] = [getRandomNumber() * 0.4, getRandomNumber() * 360];
   clicked: boolean = false;
   timeout?: number;
@@ -61,7 +61,7 @@ export default class IconTile extends HandcraftElement {
   }
 }
 
-IconTile.define("icon-tile");
+export default IconTile.define("icon-tile");
 
 function getRandomNumber(): number {
   const arr = new Uint32Array(1);
