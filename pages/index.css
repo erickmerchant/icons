@@ -1,8 +1,8 @@
-@layer page, element;
+@layer base, page, element;
 
 @import "../elements/icon-tile.css" layer(element);
 
-@layer page {
+@layer base {
   * {
     box-sizing: border-box;
     margin: 0;
@@ -11,13 +11,15 @@
     max-inline-size: 100%;
   }
 
-  :root {
+  html {
     block-size: 100%;
     font-family: system-ui, sans-serif;
     color-scheme: light dark;
     scroll-snap-type: y mandatory;
   }
+}
 
+@layer page {
   .page {
     min-block-size: 100%;
     font-size: 100%;
