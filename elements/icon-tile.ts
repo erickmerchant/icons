@@ -32,11 +32,13 @@ export class IconTile extends HandcraftElement {
         clearTimeout(this.timeout);
       }
 
-      el.isConnected && el.showPopover();
+      el.showPopover();
 
       this.timeout = setTimeout(() => {
         this.clicked = false;
       }, 2_000) as unknown as number;
+    } else if (el.isConnected && el.popover) {
+      el.hidePopover();
     }
   };
 
@@ -49,7 +51,7 @@ export class IconTile extends HandcraftElement {
         { mode: "open" },
         [
           button.part("button").on("click", this.setClicked)(slot()),
-          when(() => this.clicked).show(() =>
+          when(() => !this.ssr).show(() =>
             div
               .part("popover")
               .popover(true)
