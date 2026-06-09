@@ -1,10 +1,11 @@
 import css from "@flint/framework/handlers/css";
 import js from "@flint/framework/handlers/js";
 import flint from "@flint/framework";
+import { view } from "@handcraft/lib/ssr";
 import index from "./pages/index.ts";
 
 const app = flint()
-  .route("/", index)
+  .route("/", view(index))
   .file("/elements/icon-tile.js", js)
   .file("/styles/index.css", css);
 
