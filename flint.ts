@@ -6,6 +6,7 @@ import index from "./pages/index.ts";
 
 const app = flint()
   .route("/", view(index))
+  .route("/robots.txt")
   .file("/elements/icon-tile.js", js)
   .file("/styles/index.css", css);
 
