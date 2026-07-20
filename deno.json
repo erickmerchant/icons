@@ -1,6 +1,7 @@
 {
   "name": "@erickmerchant/icons",
   "version": "0.1.0",
+  "license": "MIT",
   "exports": {
     "./icons/check": "./icons/check.ts",
     "./icons/date": "./icons/date.ts",
