@@ -1,6 +1,6 @@
-import { h } from "@handcraft/lib";
-import icons from "../data/icons.json" with { type: "json" };
+import { h, HandcraftNode } from "@handcraft/lib";
 import iconTile from "../elements/icon-tile.ts";
+import * as Fs from "@std/fs";
 
 const {
   html,
@@ -12,9 +12,16 @@ const {
   body,
   div,
 } = h.html;
-const { svg, title: svgTitle, path: svgPath } = h.svg;
 
-export default function () {
+export default async function () {
+  const icons: Array<() => HandcraftNode> = [];
+
+  for (const { name } of await Array.fromAsync(Fs.expandGlob("./icons/*.ts"))) {
+    const { icon } = await import(`../icons/${name}`);
+
+    icons.push(icon);
+  }
+
   return html.lang("en-US")(
     head(
       meta.charset("utf-8"),
@@ -24,16 +31,7 @@ export default function () {
       script.type("module").src("/elements/icon-tile.js"),
     ),
     body.class("page")(
-      div.class("icons")(
-        icons.map(({ dimensions, title, path }) =>
-          iconTile(
-            svg.viewBox([0, 0].concat(dimensions).join(" "))(
-              svgTitle(title),
-              svgPath.d(path),
-            ),
-          )
-        ),
-      ),
+      div.class("icons")(icons.map((i) => iconTile(i()))),
     ),
   );
 }

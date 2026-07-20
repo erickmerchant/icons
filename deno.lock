@@ -180,7 +180,8 @@
   "workspace": {
     "dependencies": [
       "jsr:@flint/framework@0.37",
-      "jsr:@handcraft/lib@^4.4.1"
+      "jsr:@handcraft/lib@^4.4.1",
+      "jsr:@std/fs@^1.0.24"
     ]
   }
 }
