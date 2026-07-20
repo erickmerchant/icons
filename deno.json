@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "license": "MIT",
   "exports": {
-    "./icons/check": "./icons/check.ts",
-    "./icons/date": "./icons/date.ts",
-    "./icons/delete": "./icons/delete.ts",
-    "./icons/edit": "./icons/edit.ts",
-    "./icons/file": "./icons/file.ts",
-    "./icons/folder": "./icons/folder.ts",
-    "./icons/pinned": "./icons/pinned.ts",
-    "./icons/rss": "./icons/rss.ts"
+    "./check": "./icons/check.ts",
+    "./date": "./icons/date.ts",
+    "./delete": "./icons/delete.ts",
+    "./edit": "./icons/edit.ts",
+    "./file": "./icons/file.ts",
+    "./folder": "./icons/folder.ts",
+    "./pinned": "./icons/pinned.ts",
+    "./rss": "./icons/rss.ts"
   },
   "tasks": {
     "dev": "deno run -A --watch-hmr flint.ts --port=4000",
