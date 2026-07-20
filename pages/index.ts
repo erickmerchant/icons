@@ -1,4 +1,4 @@
-import { h, HandcraftNode } from "@handcraft/lib";
+import { h, type HandcraftNode } from "@handcraft/lib";
 import iconTile from "../elements/icon-tile.ts";
 import * as Fs from "@std/fs";
 
