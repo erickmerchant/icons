@@ -4,11 +4,18 @@ import type { HandcraftNode } from "@handcraft/lib";
 const { div, slot, button } = h.html;
 
 export class IconTile extends HandcraftElement {
+  static instances = new Set<IconTile>();
+  static observedProperties = ["clicked"];
+
   color: [number, number] = [getRandomNumber() * 0.4, getRandomNumber() * 360];
   clicked: boolean = false;
   timeout?: number;
 
-  setClicked = () => {
+  setClickedTrue = () => {
+    for (const instance of IconTile.instances) {
+      instance.clicked = false;
+    }
+
     this.clicked = true;
   };
 
@@ -21,9 +28,13 @@ export class IconTile extends HandcraftElement {
   };
 
   popoverBeforeToggle = (e: ToggleEvent) => {
-    if (e.newState === "closed") {
-      this.clicked = false;
-    }
+    const state = e.newState;
+
+    queueMicrotask(() => {
+      if (state === "closed") {
+        this.clicked = false;
+      }
+    });
   };
 
   popoverEffect = (el: HTMLElement) => {
@@ -42,6 +53,12 @@ export class IconTile extends HandcraftElement {
     }
   };
 
+  constructor() {
+    super();
+
+    IconTile.instances.add(this);
+  }
+
   override view(host: HandcraftNode) {
     host
       .class({ clicked: () => this.clicked })
@@ -50,11 +67,11 @@ export class IconTile extends HandcraftElement {
       .shadow(
         { mode: "open" },
         [
-          button.part("button").on("click", this.setClicked)(slot()),
+          button.part("button").on("click", this.setClickedTrue)(slot()),
           when(() => !this.ssr).show(() =>
             div
               .part("popover")
-              .popover(true)
+              .popover("manual")
               .on("beforetoggle", this.popoverBeforeToggle as EventListener)
               .effect(this.popoverEffect)("Copied")
           ),
