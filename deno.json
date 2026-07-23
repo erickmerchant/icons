@@ -33,7 +33,7 @@
       "dom.asynciterable",
       "deno.ns",
       "deno.unstable",
-      "es2023"
+      "es2025"
     ]
   }
 }
