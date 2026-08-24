@@ -7,7 +7,7 @@ export class IconTile extends HandcraftElement {
   static instances = new Set<IconTile>();
   static observedProperties = ["clicked"];
 
-  color: [number, number] = [getRandomNumber() * 0.4, getRandomNumber() * 360];
+  color: string = `${getRandomNumber() * 0.4} ${getRandomNumber() * 360}`;
   clicked: boolean = false;
   timeout?: number;
 
@@ -62,7 +62,7 @@ export class IconTile extends HandcraftElement {
   override view(host: HandcraftNode) {
     host
       .class({ clicked: () => this.clicked })
-      .style({ "--color": this.color.join(" ") })
+      .style({ "--color": this.color })
       .effect(this.copyToClipboard)
       .shadow(
         { mode: "open" },
