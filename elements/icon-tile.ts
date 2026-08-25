@@ -1,14 +1,15 @@
-import { h, HandcraftElement, when } from "@handcraft/lib";
+import { h, HandcraftElement, reactive, when } from "@handcraft/lib";
 import type { HandcraftNode } from "@handcraft/lib";
 
 const { div, slot, button } = h.html;
 
 export class IconTile extends HandcraftElement {
   static instances = new Set<IconTile>();
-  static observedProperties = ["clicked"];
+
+  @reactive()
+  accessor clicked: boolean = false;
 
   color: string = `${getRandomNumber() * 0.4} ${getRandomNumber() * 360}`;
-  clicked: boolean = false;
   timeout?: number;
 
   setClickedTrue = () => {
