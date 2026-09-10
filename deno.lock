@@ -186,7 +186,8 @@
     "dependencies": [
       "jsr:@flint/framework@~0.40.1",
       "jsr:@handcraft/lib@^4.6.1",
-      "jsr:@std/fs@^1.0.24"
+      "jsr:@std/fs@^1.0.24",
+      "jsr:@std/path@^1.1.6"
     ]
   }
 }

@@ -23,3 +23,36 @@
     gap: 0;
   }
 }
+
+.tile {
+  background: var(--background);
+  padding: 1rem;
+
+  --light: oklch(90% var(--color));
+  --dark: oklch(10% var(--color));
+  --background: light-dark(var(--light), var(--dark));
+  --foreground: light-dark(var(--dark), var(--light));
+
+  > * {
+    border-radius: 0.25rem;
+    scroll-snap-align: center;
+
+    @container (inline-size < 35rem) {
+      block-size: auto;
+      inline-size: 100cqi;
+    }
+  }
+
+  .icon {
+    display: grid;
+    background: var(--foreground);
+    display: grid;
+    inline-size: 100cqi;
+    block-size: auto;
+
+    @container (inline-size >= 35rem) {
+      inline-size: auto;
+      block-size: 15rem;
+    }
+  }
+}

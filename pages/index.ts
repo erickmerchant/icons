@@ -1,6 +1,5 @@
-import { h, type HandcraftNode } from "@handcraft/lib";
-import iconTile from "../elements/icon-tile.ts";
-import * as Fs from "@std/fs";
+import { h } from "@handcraft/lib";
+import * as Path from "@std/path";
 
 const {
   html,
@@ -8,19 +7,20 @@ const {
   meta,
   title,
   link,
-  script,
   body,
   div,
+  span,
 } = h.html;
 
 export default async function () {
-  const icons: Array<() => HandcraftNode> = [];
-
-  for (const { name } of await Array.fromAsync(Fs.expandGlob("./icons/*.ts"))) {
-    const { icon } = await import(`../icons/${name}`);
-
-    icons.push(icon);
-  }
+  const files = await Array.fromAsync(
+    Deno.readDir(Path.join(Deno.cwd())),
+  );
+  const icons = files.filter(({ name }) => name.endsWith(".css")).map(
+    ({ name }) => {
+      return Path.basename(name, ".css");
+    },
+  );
 
   return html.lang("en-US")(
     head(
@@ -28,10 +28,28 @@ export default async function () {
       meta.name("viewport").content("width=device-width"),
       title("Icon Gallery"),
       link.rel("stylesheet").href("/styles/index.css"),
-      script.type("module").src("/elements/icon-tile.js"),
+      icons.map((name) => link.rel("stylesheet").href(`/${name}.css`)),
     ),
     body.class("page")(
-      div.class("icons")(icons.map((i) => iconTile(i()))),
+      div.class("icons")(
+        icons.map((name) =>
+          div.class("tile").style({
+            "--color": `${getRandomNumber() * 0.4} ${getRandomNumber() * 360}`,
+          })(
+            span.class("icon", `icon-${name}`),
+          )
+        ),
+      ),
     ),
   );
+}
+
+function getRandomNumber(): number {
+  const arr = new Uint32Array(1);
+
+  globalThis.crypto.getRandomValues(arr);
+
+  const [num] = [...arr].map((v) => v / 0b11111111111111111111111111111111);
+
+  return num;
 }

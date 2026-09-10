@@ -1,17 +1,7 @@
 {
   "name": "@erickmerchant/icons",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
-  "exports": {
-    "./check": "./icons/check.ts",
-    "./date": "./icons/date.ts",
-    "./delete": "./icons/delete.ts",
-    "./edit": "./icons/edit.ts",
-    "./file": "./icons/file.ts",
-    "./folder": "./icons/folder.ts",
-    "./pinned": "./icons/pinned.ts",
-    "./rss": "./icons/rss.ts"
-  },
   "tasks": {
     "dev": "deno run -A --watch-hmr flint.ts --port=4000",
     "build": "deno run -A flint.ts --build",
@@ -20,10 +10,12 @@
       "dependencies": ["build"]
     }
   },
+  "exports": {},
   "imports": {
     "@flint/framework": "jsr:@flint/framework@^0.40.1",
     "@handcraft/lib": "jsr:@handcraft/lib@^4.6.1",
-    "@std/fs": "jsr:@std/fs@^1.0.24"
+    "@std/fs": "jsr:@std/fs@^1.0.24",
+    "@std/path": "jsr:@std/path@^1.1.6"
   },
   "unstable": ["bundle"],
   "compilerOptions": {
