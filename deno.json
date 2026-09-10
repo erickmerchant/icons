@@ -10,7 +10,9 @@
       "dependencies": ["build"]
     }
   },
-  "exports": {},
+  "exports": {
+    ".": "./mod.ts"
+  },
   "imports": {
     "@flint/framework": "jsr:@flint/framework@^0.40.1",
     "@handcraft/lib": "jsr:@handcraft/lib@^4.6.1",
