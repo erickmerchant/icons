@@ -1,6 +1,6 @@
 {
   "name": "@erickmerchant/icons",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "tasks": {
     "dev": "deno run -A --watch-hmr flint.ts --port=4000",
