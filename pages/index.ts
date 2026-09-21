@@ -16,11 +16,13 @@ export default async function () {
   const files = await Array.fromAsync(
     Deno.readDir(Path.join(Deno.cwd())),
   );
-  const icons = files.filter(({ name }) => name.endsWith(".css")).map(
-    ({ name }) => {
-      return Path.basename(name, ".css");
-    },
-  );
+  const icons = files
+    .filter(({ name }) => name.endsWith(".css"))
+    .map(
+      ({ name }) => {
+        return Path.basename(name, ".css");
+      },
+    );
 
   return html.lang("en-US")(
     head(
@@ -33,11 +35,15 @@ export default async function () {
     body.class("page")(
       div.class("icons")(
         icons.map((name) =>
-          div.class("tile").style({
-            "--color": `${getRandomNumber() * 0.4} ${getRandomNumber() * 360}`,
-          })(
+          div(
             span.class("icon", `icon-${name}`),
           )
+            .class("tile")
+            .style({
+              "--color": `${getRandomNumber() * 0.4} ${
+                getRandomNumber() * 360
+              }`,
+            })
         ),
       ),
     ),
