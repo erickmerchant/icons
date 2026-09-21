@@ -1,16 +1,7 @@
 import { h } from "@handcraft/lib";
 import * as Path from "@std/path";
 
-const {
-  html,
-  head,
-  meta,
-  title,
-  link,
-  body,
-  div,
-  span,
-} = h.html;
+const { html, head, meta, title, link, body, div, span } = h.html;
 
 export default async function () {
   const files = await Array.fromAsync(
